@@ -1,0 +1,32 @@
+.slick-arrow.slick-prev,
+.slick-arrow.slick-next{
+        background: rgba(0,0,0,0.4);
+        width: 5rem;
+        height: 7rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .slick-prev::before,
+    .slick-next::before{
+        /* display: none; */
+        font-size: 3rem;
+    }
+    .slick-prev{
+        left: 0;
+        z-index: 1;
+    }
+    .slick-next{
+        right: 0;
+    }
+
+    @media screen and (max-width:556px){
+        .slick-arrow.slick-prev,
+.slick-arrow.slick-next{
+    display: none
+    }
+         .slick-prev::before,
+    .slick-next::before{
+        display: none;
+    }
+    }
