@@ -1,5 +1,5 @@
 import escrow from "./EscrowABI.json";
-export const escrowAddress = "0xF04E7b9fece346eb61Ab659F6b959b97C0fAeD2B";
+export const escrowAddress = "0x4756e7ef0E9C6DbDda886f99ff148B734Fe3c98b";
 
 // "0xB23A6A3a053C2bfab042b0Adc2c27b6384C31279";
 export const escrowABI = escrow.abi;

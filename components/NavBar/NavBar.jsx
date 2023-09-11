@@ -80,9 +80,11 @@ const NavBar = () => {
 							</Link>
 						</div>
 						<div className={Style.navbar_container_right_help}>
-							<Link
+							<a
 								href="https://discord.gg/cscrow"
 								className="headerLink text-white capitalize"
+								rel="noopener noreferrer"
+								target="_blank"
 							>
 								Discord
 								{/* <Image
@@ -92,12 +94,14 @@ const NavBar = () => {
 									width={0}
 									height={0}
 								/> */}
-							</Link>
+							</a>
 						</div>
 						<div className={Style.navbar_container_right_help}>
-							<Link
+							<a
 								href="https://twitter.com/cscrowdotcom"
 								className="headerLink text-white capitalize"
+								rel="noopener noreferrer"
+								target="_blank"
 							>
 								Twitter
 								{/* <Image
@@ -107,7 +111,7 @@ const NavBar = () => {
 									width={0}
 									height={0}
 								/> */}
-							</Link>
+							</a>
 						</div>
 
 						{/* CREATE BUTTON SECTION */}

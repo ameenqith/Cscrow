@@ -93,6 +93,9 @@ export const ContractInfoBoxAssign = (contract) => {
 
 				<div className="mb-4">
 					<p className="text-black text-sm capitalize">
+						Case Id: {contract.contract.validatorId}
+					</p>
+					<p className="text-black text-sm capitalize">
 						Sender Details: {contract.contract.assignorDetails}
 					</p>
 					<p className="text-black text-sm capitalize">
