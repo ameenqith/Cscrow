@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import Web3Modal from "web3modal";
-import { ethers } from "ethers";
-import { create as ipfsHttpClient } from "ipfs-http-client";
+import {ethers} from "ethers";
+import {create as ipfsHttpClient} from "ipfs-http-client";
 //INTERNAL  IMPORT
-import { escrowAddress, escrowABI } from "./constants";
+import {escrowABI, escrowAddress, rewardPoolABI, rewardPoolAddress} from "./constants";
+import {useWeb3Modal} from "@web3modal/react";
+import {useAccount} from "wagmi";
+
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 const projectSecretKey = process.env.NEXT_PUBLIC_PROJECT_SECRET_KEY;
 const subdomain = process.env.NEXT_PUBLIC_SUBDOMAIN;
 const auth = `Basic ${Buffer.from(`${projectId}:${projectSecretKey}`).toString(
 	"base64"
 )}`;
-import { useWeb3Modal } from "@web3modal/react";
-import { useAccount } from "wagmi";
+
 
 const client = ipfsHttpClient({
 	host: "infura-ipfs.io",
@@ -21,6 +23,25 @@ const client = ipfsHttpClient({
 		authorization: auth,
 	},
 });
+
+// start reward pool contract
+const fetchRewardContract = async (signerOrProvider) => {
+	return new ethers.Contract(rewardPoolAddress, rewardPoolABI, signerOrProvider);
+};
+
+const connectingWithRewardContract = async () => {
+	try {
+		const web3Modal = new Web3Modal();
+		const connection = await web3Modal.connect();
+		const provider = new ethers.providers.Web3Provider(connection);
+		const signer = provider.getSigner();
+		return await fetchRewardContract(signer);
+	} catch (error) {
+		console.log("Something went wrong while connecting with contract", error);
+	}
+};
+
+// end
 
 //---FETCHING SMART CONTRACT
 const fetchContract = async (signerOrProvider) => {
@@ -85,6 +106,48 @@ export const EscrowProvider = ({ children }) => {
 	};
 
 	
+	// Rewards POOL calls
+	// function pendingERC20(uint256 _pid, address _user)
+	const pendingERC20 = async (pid, userAddress) => {
+		try {
+			const contract = await connectingWithRewardContract();
+			const amount = await contract.pendingERC20(pid, userAddress);
+			return ethers.utils.formatEther(amount);
+		} catch (error) {
+			return 0;
+		}
+	}
+	// function claim(uint256 _pid) public {
+	const claimReward = async (pid) => {
+		try {
+			const contract = await connectingWithRewardContract();
+			const trx = await contract.claim(pid);
+			return await trx.wait();
+		} catch (error) {
+		console.log(error);
+		}
+	}
+
+	const getPoolLength = async () => {
+		try {
+			const contract = await connectingWithRewardContract();
+			const trx = await contract.poolLength();
+			return trx.toNumber()
+		} catch (error) {
+			return 0
+		}
+	}
+	const getPoolInfo = async () => {
+		try {
+			const contract = await connectingWithRewardContract();
+			const trx = await contract.poolInfo();
+			console.log(trx);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	// end Rewards POOL calls
 
 	const createContract = async (
 		title,
@@ -107,7 +170,8 @@ export const EscrowProvider = ({ children }) => {
 					value: ethers.utils.parseEther(amount.toString()),
 				}
 			);
-			await trx.wait();
+			const res = await trx.wait();
+			console.log(res);
 		} catch (error) {
 			console.log(error);
 		}
@@ -181,6 +245,10 @@ export const EscrowProvider = ({ children }) => {
 			if (currentAccount) {
 				const contract = await connectingWithSmartContract();
 				const myContracts = await contract.getMyContracts(currentAccount);
+				console.log(currentAccount, myContracts);
+				if(!myContracts?.length) {
+					return [];
+				}
 				let data = [];
 				for (let i = 0; i < myContracts.length; i++) {
 					let number = Number(myContracts[i]);
@@ -441,6 +509,10 @@ export const EscrowProvider = ({ children }) => {
 				validations,
 				vote,
 				runResolveDispute,
+				claimReward,
+				pendingERC20,
+				getPoolInfo,
+				getPoolLength
 			}}
 		>
 			{children}

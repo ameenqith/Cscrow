@@ -63,7 +63,7 @@
 
 .navbar_container_right{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     gap: 1rem;
     align-items: center;
     
