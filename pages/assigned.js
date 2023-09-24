@@ -21,7 +21,7 @@ const assigned = () => {
         }
     }, [currentAccount]);
 
-    const filteredContracts = contracts.filter(
+    const filteredContracts = (contracts || []).filter(
         (item) =>
             item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             item.id.toString().includes(searchQuery.toLowerCase())

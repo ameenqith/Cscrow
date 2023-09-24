@@ -80,6 +80,14 @@ const NavBar = () => {
 							</Link>
 						</div>
 						<div className={Style.navbar_container_right_help}>
+							<Link
+								href="/claims"
+								className="headerLink text-white capitalize"
+							>
+								claims
+							</Link>
+						</div>
+						<div className={Style.navbar_container_right_help}>
 							<a
 								href="https://discord.gg/cscrow"
 								className="headerLink text-white capitalize"
