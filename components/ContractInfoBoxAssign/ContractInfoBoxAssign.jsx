@@ -8,8 +8,8 @@ import Popup from "../PopUp/Popup";
 import { logger } from "ethers";
 import SliderPopup from "../PopUp/SliderPopup";
 
-export const ContractInfoBoxAssign = (contract) => {
-	const startDate = new Date(contract.contract.validationCreateTime * 1000);
+export const ContractInfoBoxAssign = ({contract, onRefresh}) => {
+	const startDate = new Date(contract.validationCreateTime * 1000);
 	const endTime = new Date(startDate);
 	const { runResolveDispute, vote } = useContext(EscrowContext);
 	const [showPopUp, setShowPopUp] = useState([false, "assignee"]);
@@ -62,7 +62,7 @@ export const ContractInfoBoxAssign = (contract) => {
 				) {
 					console.log("Countdown reached zero");
 					clearInterval(interval); // Clear the interval once the countdown is complete
-					runResolveDispute(contract.contract.disputeId);
+					runResolveDispute(contract.disputeId);
 				}
 			}, 1000);
 
@@ -74,7 +74,7 @@ export const ContractInfoBoxAssign = (contract) => {
 		<>
 			<div
 				className=" bg-white rounded-lg opacity-70 shadow-lg p-6 mb-6 lg:ml-4 lg:mr-0"
-				key={contract.contract.validatorId}
+				key={contract.validatorId}
 			>
 				<div className="flex justify-end">
 					<Image
@@ -87,23 +87,23 @@ export const ContractInfoBoxAssign = (contract) => {
 				</div>
 				<div className="flex justify-center">
 					<h2 className="text-2xl text-black font-semibold mb-4">
-						{contract.contract.title}
+						{contract.title}
 					</h2>
 				</div>
 
 				<div className="mb-4">
 					<p className="text-black text-sm capitalize">
-						Case Id: {contract.contract.validatorId}
+						Case Id: {contract.validatorId}
 					</p>
 					<p className="text-black text-sm capitalize">
-						Sender Details: {contract.contract.assignorDetails}
+						Sender Details: {contract.assignorDetails}
 					</p>
 					<p className="text-black text-sm capitalize">
-						Reciever Details: {contract.contract.assigneeDetails}
+						Reciever Details: {contract.assigneeDetails}
 					</p>
 					<p className="text-black text-sm capitalize">
 						Sender proof:{" "}
-						{contract.contract.assignorProfs.length > 0 ? (
+						{contract.assignorProfs.length > 0 ? (
 							<span
 								onClick={() => {
 									setShowPopUp([true, "assignor"]);
@@ -120,7 +120,7 @@ export const ContractInfoBoxAssign = (contract) => {
 					</p>
 					<p className="text-black text-sm capitalize">
 						Reciever proof:{" "}
-						{contract.contract.assigneeProfs.length > 0 ? (
+						{contract.assigneeProfs.length > 0 ? (
 							<span
 								onClick={() => {
 									setShowPopUp([true, "assignee"]);
@@ -180,8 +180,9 @@ export const ContractInfoBoxAssign = (contract) => {
 									btnName="Assignee"
 									handleClick={() => {
 										setIsLoadingContracts(true);
-										vote(contract.contract.validatorId, 1).finally(() => {
+										vote(contract.validatorId, 1).finally(() => {
 											setIsLoadingContracts(false); // Stop loading contracts
+											onRefresh()
 										});
 									}}
 								/>
@@ -190,8 +191,9 @@ export const ContractInfoBoxAssign = (contract) => {
 									handleClick={() => {
 										setIsLoadingContracts(true);
 
-										vote(contract.contract.validatorId, 0).finally(() => {
+										vote(contract.validatorId, 0).finally(() => {
 											setIsLoadingContracts(false); // Stop loading contracts
+											onRefresh()
 										});
 									}}
 								/>

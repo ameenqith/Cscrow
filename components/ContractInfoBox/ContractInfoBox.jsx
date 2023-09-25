@@ -6,7 +6,7 @@ import { MdArrowRightAlt } from "react-icons/md";
 import { EscrowContext } from "../../Context/EscrowContext";
 import Popup from "../PopUp/Popup";
 
-export const ContractInfoBox = (contract) => {
+export const ContractInfoBox = ({contract, onRefresh}) => {
 	const [isLoadingContracts, setIsLoadingContracts] = useState(false);
 	const [showPopUp, setShowPopUp] = useState(false);
 
@@ -22,8 +22,8 @@ export const ContractInfoBox = (contract) => {
 	return (
 		<>
 			<div
-				className=" bg-white rounded-lg opacity-70 shadow-lg p-6 mb-6 lg:ml-4 lg:mr-0"
-				key={contract.contract.id}
+				className="bg-white rounded-lg shadow-lg p-6 mb-6 lg:ml-4 lg:mr-0"
+				key={contract.id}
 			>
 				<div className="flex justify-end">
 					<Image
@@ -36,31 +36,31 @@ export const ContractInfoBox = (contract) => {
 				</div>
 				<div className="flex justify-center">
 					<h2 className="text-2xl text-black font-semibold mb-4">
-						{contract.contract.title}
+						{contract.title}
 					</h2>
 				</div>
 
 				<div className="mb-4">
 					<p className="text-black flex text-sm">
-						CscrowId: {contract.contract.id}
+						CscrowId: {contract.id}
 					</p>
 					<p className="text-black flex text-sm">
-						Sender: {contract.contract.assignor}
+						Sender: {contract.assignor}
 					</p>
 					<p className="text-black text-sm">
-						Receiver: {contract.contract.assignee}
+						Receiver: {contract.assignee}
 					</p>
 
 					<p className="text-black text-sm">
-						Details: {contract.contract.details}
+						Details: {contract.details}
 					</p>
 					<p className="text-black text-sm">
-						Total in Tokens: {contract.contract.amount} Matic
+						Total in Tokens: {contract.amount} Matic
 					</p>
 				</div>
 
 				<div>
-					{contract.contract.status === 1 ? (
+					{contract.status === 1 ? (
 						<div className="flex justify-center italic font-semibold border border-black">
 							<span className="text-black text-xs lg:text-sm">Created</span>
 							<span className="text-black">
@@ -78,7 +78,7 @@ export const ContractInfoBox = (contract) => {
 							</span>
 							<span className="text-black text-xs lg:text-sm">Approved</span>
 						</div>
-					) : contract.contract.status === 2 ? (
+					) : contract.status === 2 ? (
 						<div className="flex justify-center italic font-semibold border border-black">
 							<span className="text-black text-xs lg:text-sm">Created</span>
 							<span className="text-black">
@@ -97,7 +97,7 @@ export const ContractInfoBox = (contract) => {
 							</span>
 							<span className="text-black text-xs lg:text-sm">Approved</span>
 						</div>
-					) : contract.contract.status === 3 ? (
+					) : contract.status === 3 ? (
 						<div className="flex justify-center italic font-semibold border border-black px-20">
 							<span className="text-black text-xs lg:text-sm">Created</span>
 							<span className="text-black">
@@ -116,7 +116,7 @@ export const ContractInfoBox = (contract) => {
 								Approved
 							</span>
 						</div>
-					) : contract.contract.status === 4 ? (
+					) : contract.status === 4 ? (
 						<div className="flex justify-center italic font-semibold border border-black">
 							<span className="text-black text-xs lg:text-sm">Created</span>
 							<span className="text-black">
@@ -133,7 +133,7 @@ export const ContractInfoBox = (contract) => {
 							</span>
 							<span className="text-red-500 text-xs lg:text-sm">Cancelled</span>
 						</div>
-					) : contract.contract.status === 7 ? (
+					) : contract.status === 7 ? (
 						<div className="flex justify-center italic font-semibold border border-black">
 							<span className="text-black text-xs lg:text-sm">Created</span>
 							<span className="text-black">
@@ -150,7 +150,7 @@ export const ContractInfoBox = (contract) => {
 							</span>
 							<span className="text-red-500 text-xs lg:text-sm">Withdraw</span>
 						</div>
-					) : contract.contract.status === 5 ? (
+					) : contract.status === 5 ? (
 						<div className="flex justify-center italic font-semibold border border-black">
 							<span className="text-black text-xs lg:text-sm">Created</span>
 							<span className="text-black">
@@ -190,28 +190,28 @@ export const ContractInfoBox = (contract) => {
 				</div>
 				<div className="flex justify-center mt-5">
 					<div className="flex">
-						{(currentAccount === contract.contract.assignor ||
-							currentAccount === contract.contract.assignee) &&
-						contract.contract.status === 4 ? (
+						{(currentAccount === contract.assignor ||
+							currentAccount === contract.assignee) &&
+						contract.status === 4 ? (
 							<>
 								<p className="text-sm text-red-500 italic">
 									Contract Cancelled
 								</p>
 							</>
-						) : (currentAccount === contract.contract.assignor ||
-								currentAccount === contract.contract.assignee) &&
-						  contract.contract.status === 7 ? (
+						) : (currentAccount === contract.assignor ||
+								currentAccount === contract.assignee) &&
+						  contract.status === 7 ? (
 							<>
 								<p className="text-sm text-red-500 italic">
 									Contract Withdrawal
 								</p>
 							</>
-						) : (currentAccount === contract.contract.assignor ||
-								currentAccount === contract.contract.assignee) &&
-						  contract.contract.status === 5 ? (
+						) : (currentAccount === contract.assignor ||
+								currentAccount === contract.assignee) &&
+						  contract.status === 5 ? (
 							<>
 								<p className="text-sm text-red-500 italic">
-									Contract Dispuuted, check dispute section
+									Contract Disputed, check dispute section
 								</p>
 							</>
 						) : (
@@ -224,17 +224,18 @@ export const ContractInfoBox = (contract) => {
 							</div>
 						) : (
 							<>
-								{contract.contract.status === 0 &&
-									currentAccount === contract.contract.assignor && (
+								{contract.status === 0 &&
+									currentAccount === contract.assignor && (
 										<>
 											<Button
 												btnName="Withdraw"
 												handleClick={
 													() => {
 														setIsLoadingContracts(true);
-														withdrawContract(contract.contract.id).finally(
+														withdrawContract(contract.id).finally(
 															() => {
 																setIsLoadingContracts(false); // Stop loading contracts
+																onRefresh()
 															}
 														);
 													}
@@ -243,15 +244,16 @@ export const ContractInfoBox = (contract) => {
 											/>
 										</>
 									)}
-								{currentAccount === contract.contract.assignee &&
-									contract.contract.status === 0 && (
+								{currentAccount === contract.assignee &&
+									contract.status === 0 && (
 										<>
 											<Button
 												btnName="Accept"
 												handleClick={() => {
 													setIsLoadingContracts(true); // Start loading contracts
-													acceptContract(contract.contract.id).finally(() => {
+													acceptContract(contract.id).finally(() => {
 														setIsLoadingContracts(false); // Stop loading contracts
+														onRefresh()
 													});
 												}}
 											/>
@@ -260,35 +262,38 @@ export const ContractInfoBox = (contract) => {
 													btnName="Cancel"
 													handleClick={() => {
 														setIsLoadingContracts(true); // Start loading contracts
-														cancelContract(contract.contract.id).finally(() => {
+														cancelContract(contract.id).finally(() => {
 															setIsLoadingContracts(false); // Stop loading contracts
+															onRefresh()
 														});
 													}}
 												/>
 											</div>
 										</>
 									)}
-								{currentAccount === contract.contract.assignor &&
-									contract.contract.status === 1 && (
+								{currentAccount === contract.assignor &&
+									contract.status === 1 && (
 										<Button
 											btnName="Cancel"
 											handleClick={() => {
 												setIsLoadingContracts(true); // Start loading contracts
-												cancelContract(contract.contract.id).finally(() => {
+												cancelContract(contract.id).finally(() => {
 													setIsLoadingContracts(false); // Stop loading contracts
+													onRefresh()
 												});
 											}}
 										/>
 									)}
-								{currentAccount === contract.contract.assignee &&
-									contract.contract.status === 1 && (
+								{currentAccount === contract.assignee &&
+									contract.status === 1 && (
 										<>
 											<Button
 												btnName="Complete"
 												handleClick={() => {
 													setIsLoadingContracts(true); // Start loading contracts
-													completeContract(contract.contract.id).finally(() => {
+													completeContract(contract.id).finally(() => {
 														setIsLoadingContracts(false); // Stop loading contracts
+														onRefresh()
 													});
 												}}
 											/>
@@ -302,15 +307,16 @@ export const ContractInfoBox = (contract) => {
 											</div>
 										</>
 									)}
-								{currentAccount === contract.contract.assignor &&
-									contract.contract.status === 2 && (
+								{currentAccount === contract.assignor &&
+									contract.status === 2 && (
 										<>
 											<Button
 												btnName="Approve"
 												handleClick={() => {
 													setIsLoadingContracts(true);
-													approveContract(contract.contract.id).finally(() => {
+													approveContract(contract.id).finally(() => {
 														setIsLoadingContracts(false); // Stop loading contracts
+														onRefresh()
 													});
 												}}
 											/>
@@ -334,7 +340,7 @@ export const ContractInfoBox = (contract) => {
 				</div>
 			</div>
 			{showPopUp && (
-				<Popup setShowPopUp={setShowPopUp} escrowId={contract.contract.id} />
+				<Popup setShowPopUp={setShowPopUp} escrowId={contract.id} />
 			)}
 		</>
 	);

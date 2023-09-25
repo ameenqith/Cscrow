@@ -6,7 +6,7 @@ import Head from "next/head"
 import { FaSearch } from "react-icons/fa";
 
 const dispute = () => {
-	const { currentAccount, getDisputes } = useContext(EscrowContext);
+	const { currentAccount, getDisputes, connectWallet } = useContext(EscrowContext);
 	const [disputes, setDisputes] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [loading, setLoading] = useState(true);
@@ -15,6 +15,14 @@ const dispute = () => {
 
 
 	useEffect(() => {
+		if(!currentAccount){
+			connectWallet();
+		}
+
+	getDisputesData();
+	}, [currentAccount]);
+
+	const getDisputesData = () =>{
 		if (currentAccount) {
 			const data = getDisputes().then((items) => {
 				setDisputes(items);
@@ -22,8 +30,9 @@ const dispute = () => {
 			});
 			// setContracts(data);
 		}
-	}, [currentAccount]);
-	const filteredContracts = disputes.filter(
+	}
+
+	const filteredContracts = (disputes || []).filter(
 		(item) =>
 			item.escrowTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			item.escrowId.toString().includes((searchQuery.toLowerCase()).toString())
@@ -34,11 +43,6 @@ const dispute = () => {
 	const contractsForPage = filteredContracts.reverse().slice(startIndex, endIndex);
 	return (
 		<>
-
-
-
-
-
 			<div>
 				<div className="flex justify-center items-center my-5 md:mx-auto mx-5 relative md:w-1/3 w-full">
 					<span className="absolute left-5 text-[1.4rem] text-zinc-400">
@@ -69,7 +73,7 @@ const dispute = () => {
 							<p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-[2rem] font-light text-zinc-400">No contracts found.</p>
 						) : (
 							contractsForPage.map((item, index) => (
-								<DisputeInfoBox dispute={item} />
+								<DisputeInfoBox key={index} dispute={item} onRefresh={getDisputesData} />
 							))
 						)}
 

@@ -308,14 +308,16 @@ export const EscrowProvider = ({ children }) => {
 
 	const createDispureLevel1 = async (id, percentage, details) => {
 		try {
-			console.log(id, percentage, details);
+			if (currentAccount) {
+				console.log(id, percentage, details);
 
-			const contract = await connectingWithSmartContract();
-			const escrow = await contract.escrows(id);
-			const amount = (Number(escrow.amount) * Number(percentage)) / 100;
+				const contract = await connectingWithSmartContract();
+				const escrow = await contract.escrows(id);
+				const amount = (Number(escrow.amount) * Number(percentage)) / 100;
 
-			const trx = await contract.createDisputeLevel1(id, amount, details);
-			await trx.wait();
+				const trx = await contract.createDisputeLevel1(id, amount, details);
+				await trx.wait();
+			}
 		} catch (error) {
 			console.log(error);
 		}
@@ -324,9 +326,11 @@ export const EscrowProvider = ({ children }) => {
 	const acceptDispute = async (id) => {
 		console.log(id);
 		try {
-			const contract = await connectingWithSmartContract();
-			const trx = await contract.acceptDispute(id);
-			await trx.wait();
+			if (currentAccount) {
+				const contract = await connectingWithSmartContract();
+				const trx = await contract.acceptDispute(Number(id));
+				await trx.wait();
+			}
 		} catch (error) {
 			console.log(error);
 		}
@@ -345,7 +349,7 @@ export const EscrowProvider = ({ children }) => {
 					currentAccount === dispute.assignor.toLowerCase() ||
 					currentAccount === dispute.assignee.toLowerCase()
 				) {
-					data.push({
+					const disputeInfo ={
 						id: Number(i),
 						escrowId: Number(dispute.escrowId),
 						escrowStatus: Number(escrow.status),
@@ -354,14 +358,15 @@ export const EscrowProvider = ({ children }) => {
 						amount: Number(ethers.utils.formatEther(escrow.amount)),
 						assignor: dispute.assignor.toLowerCase(),
 						assignee: dispute.assignee.toLowerCase(),
-						disputedamount: Number(ethers.utils.formatEther(dispute.amount)),
+						disputedamount: Number(ethers.utils.formatEther(dispute.amount ?? 0)),
 						assignorDetails: dispute.assignorDetails,
 						assigneeDetails: dispute.assigneeDetails,
 						validatorId: Number(dispute.validatorId),
 						status: dispute.disputeLevel,
 						assigneeCreatedDispute: dispute.assigneeCreatedDispute,
 						validationStarted: dispute.validationStarted,
-					});
+					};
+					data.push(disputeInfo);
 				}
 			}
 			return data;
@@ -370,13 +375,12 @@ export const EscrowProvider = ({ children }) => {
 		}
 	};
 
-	const createDisputeLevel2 = async (id, details, imagesPath) => {
+	const createDisputeLevel2 = async (id,amount, details, imagesPath) => {
 		try {
-			console.log(id, details, imagesPath);
 			const contract = await connectingWithSmartContract();
 			let ipfsImages = await uploadImages(imagesPath);
-			console.log(ipfsImages);
-			const trx = await contract.createDisputeLevel2(id, details, ipfsImages);
+			console.log(id, Number(amount), details, ipfsImages);
+			const trx = await contract.createDisputeLevel2(id, Number(amount), details, ipfsImages);
 			await trx.wait();
 		} catch (error) {
 			console.log(error);

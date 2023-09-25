@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Button } from "../componentsindex";
 import Image from "next/image";
 import images from "../../img";
@@ -7,7 +7,7 @@ import { EscrowContext } from "../../Context/EscrowContext";
 import Popup from "../PopUp/Popup";
 import FilePopup from "../PopUp/FilePopup";
 
-const DisputeInfoBox = (dispute) => {
+const DisputeInfoBox = ({dispute, onRefresh}) => {
 	const [isLoadingContracts, setIsLoadingContracts] = useState(false);
 
 	const [showPopUp, setShowPopUp] = useState([false,null]);
@@ -17,12 +17,13 @@ const DisputeInfoBox = (dispute) => {
 		addProofsForDisputeLevel2,
 		createDisputeLevel2,
 	} = useContext(EscrowContext);
-	console.log(dispute);
+
+
 	return (
 		<>
 			<div
 				className=" bg-white rounded-lg shadow-lg p-6 mb-6 lg:ml-4 lg:mr-0"
-				key={dispute.dispute.id}
+				key={dispute.id}
 			>
 				<div className="flex justify-end">
 					<Image
@@ -35,46 +36,46 @@ const DisputeInfoBox = (dispute) => {
 				</div>
 				<div className="flex justify-center">
 					<h2 className="text-2xl text-black font-semibold mb-4">
-						{dispute.dispute.escrowTitle}
+						{dispute.escrowTitle}
 					</h2>
 				</div>
 				<div className="mb-4 flex flex-col">
 					<p className="text-black flex text-sm">
-						Dispute id: {dispute.dispute.id}
+						Dispute id: {dispute.id}
 					</p>
 					<p className="text-black flex text-sm">
-						Cscrow id: {dispute.dispute.escrowId}
+						Cscrow id: {dispute.escrowId}
 					</p>
 					<p className="text-black flex text-sm">
-						Sender: {dispute.dispute.assignor}
+						Sender: {dispute.assignor}
 					</p>
 					<p className="text-black text-sm">
-						Reciever: {dispute.dispute.assignee}
+						Reciever: {dispute.assignee}
 					</p>
 
 					<p className="text-black text-sm">
-						Details: {dispute.dispute.escrowDescription}
+						Details: {dispute.escrowDescription}
 					</p>
 					<p className="text-black text-sm">
-						Amount: {dispute.dispute.amount} Matic
+						Amount: {dispute.amount} Matic
 					</p>
 					<p className="text-black text-sm">
-						Sender Disputed Amount: {dispute.dispute.disputedamount} Matic
+						Sender Disputed Amount: {dispute.disputedamount} Matic
 					</p>
 					<p className="text-black text-sm">
-						Reciever Disputed Amount: {dispute.dispute.disputedamount} Matic
+						Receiver Disputed Amount: {dispute.disputedamount} Matic
 					</p>
-					{dispute.dispute.assignorDetails !== "" ? (
+					{dispute.assignorDetails !== "" ? (
 						<p className="text-black text-sm">
-							Sender Details: {dispute.dispute.assignorDetails}
+							Sender Details: {dispute.assignorDetails}
 						</p>
 					) : (
 						<p className="text-black text-sm">Assignor Details: Not Provided</p>
 					)}
 
-					{dispute.dispute.assigneeDetails !== "" ? (
+					{dispute.assigneeDetails !== "" ? (
 						<p className="text-black text-sm">
-							Receiver Details: {dispute.dispute.assigneeDetails}
+							Receiver Details: {dispute.assigneeDetails}
 						</p>
 					) : (
 						<p className="text-black text-sm">Assignee Details: Not Provided</p>
@@ -87,17 +88,17 @@ const DisputeInfoBox = (dispute) => {
 						</div>
 					) : (
 						<>
-							{dispute.dispute.escrowStatus === 5 &&
-								dispute.dispute.status === 0 &&
-								currentAccount.toLowerCase() === dispute.dispute.assignor && (
+							{dispute.escrowStatus === 5 &&
+								dispute.status === 0 &&
+								currentAccount.toLowerCase() === dispute.assignor && (
 									<>
 										<Button
 											btnName="Accept"
 											handleClick={() => {
 												setIsLoadingContracts(true);
-
-												acceptDispute(dispute.dispute.id).finally(() => {
+												acceptDispute(dispute.id).finally(() => {
 													setIsLoadingContracts(false); // Stop loading contracts
+													onRefresh()
 												});
 											}}
 										/>
@@ -109,18 +110,18 @@ const DisputeInfoBox = (dispute) => {
 										/>
 									</>
 								)}
-							{dispute.dispute.escrowStatus === 5 &&
-								dispute.dispute.status === 0 &&
-								currentAccount.toLowerCase() === dispute.dispute.assignee && (
+							{dispute.escrowStatus === 5 &&
+								dispute.status === 0 &&
+								currentAccount.toLowerCase() === dispute.assignee && (
 									<p className="text-md text-red-500 itali">
 										Wait for the other party for dispute
 									</p>
 								)}
-							{dispute.dispute.escrowStatus === 5 &&
-							dispute.dispute.status === 1 &&
-							dispute.dispute.assigneeCreatedDispute &&
-							currentAccount.toLowerCase() === dispute.dispute.assignee &&
-							!dispute.dispute.validationStarted ? (
+							{dispute.escrowStatus === 5 &&
+							dispute.status === 1 &&
+							dispute.assigneeCreatedDispute &&
+							currentAccount.toLowerCase() === dispute.assignee &&
+							!dispute.validationStarted ? (
 								<>
 									<Button
 										btnName="Upload Proofs"
@@ -129,11 +130,11 @@ const DisputeInfoBox = (dispute) => {
 										}
 									/>
 								</>
-							) : dispute.dispute.validationStarted ? (
+							) : dispute.validationStarted ? (
 								<p className="text-md text-red-500 itali">
 									Wait for validation from community
 								</p>
-							) : dispute.dispute.status === 1 ? (
+							) : dispute.status === 1 ? (
 								<>
 									<p className="text-md text-red-500 itali">
 										Wait for the other party to upload proofs
@@ -143,7 +144,7 @@ const DisputeInfoBox = (dispute) => {
 								<></>
 							)}
 
-							{dispute.dispute.escrowStatus === 7 && (
+							{dispute.escrowStatus === 7 && (
 								<>
 									<p className="text-md text-red-500 italic">
 										Dispute resolved
@@ -157,8 +158,9 @@ const DisputeInfoBox = (dispute) => {
 			{showPopUp[0] && (
 				<FilePopup
 					setShowPopUp={setShowPopUp}
-					id={dispute.dispute.id}
+					id={dispute.id}
 					showPopUp={showPopUp}
+					onRefresh={onRefresh}
 				/>
 			)}
 		</>

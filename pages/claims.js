@@ -5,7 +5,7 @@ import Head from "next/head";
 import { FaSearch } from "react-icons/fa";
 
 const claims = () => {
-    const { currentAccount, getPoolLength, pendingERC20, claimReward } = useContext(EscrowContext);
+    const { currentAccount, getPoolLength, pendingERC20, connectWallet } = useContext(EscrowContext);
     const [searchQuery, setSearchQuery] = useState("");
     const [loading, setLoading] = useState(true);
     const [rewards, setRewards] = useState([]);
@@ -13,6 +13,10 @@ const claims = () => {
 	const itemsPerPage = 6;
 
     useEffect(() => {
+        if(!currentAccount){
+            connectWallet();
+        }
+
         if (currentAccount) {
             getRewards()
         }

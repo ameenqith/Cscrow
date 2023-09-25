@@ -6,7 +6,7 @@ import images from "../img";
 import { FaSearch } from "react-icons/fa";
 
 const created = () => {
-	const { currentAccount, getMyContractsAssignor,connectingWithSmartContract } = useContext(EscrowContext);
+	const { currentAccount, getMyContractsAssignor,connectWallet } = useContext(EscrowContext);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [contracts, setContracts] = useState([])
@@ -14,6 +14,14 @@ const created = () => {
 	const itemsPerPage = 6;
 
 	useEffect(() => {
+		if(!currentAccount){
+			connectWallet();
+		}
+
+		getContractsAssignors();
+	}, [currentAccount]);
+
+	const getContractsAssignors = () => {
 		if (currentAccount) {
 			const data = getMyContractsAssignor().then((items) => {
 				setContracts(items);
@@ -21,13 +29,8 @@ const created = () => {
 			});
 			// setContracts(data);
 		}
-	}, [currentAccount]);
+	};
 
-
-
-	  
-		
-	console.log(contracts);
 	const filteredContracts = (contracts || []).filter(
 		(item) =>
 			item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -69,7 +72,7 @@ const created = () => {
 						<p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-[2rem] font-light text-zinc-400">No contracts found.</p>
 					) : (
 						contractsForPage.map((item, index) => (
-							<ContractInfoBox key={index} contract={item} />
+							<ContractInfoBox key={index} contract={item} onRefresh={getContractsAssignors} />
 						))
 					)}
 

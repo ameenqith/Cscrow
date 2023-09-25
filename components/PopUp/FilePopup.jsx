@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { EscrowContext } from "../../Context/EscrowContext";
 
-const FilePopup = ({ setShowPopUp, id, showPopUp }) => {
+const FilePopup = ({ setShowPopUp, id, showPopUp, onRefresh }) => {
 	const [isLoadingContracts, setIsLoadingContracts] = useState(false);
 
 	const [selectedImages, setSelectedImages] = useState([]);
@@ -26,7 +26,6 @@ const FilePopup = ({ setShowPopUp, id, showPopUp }) => {
 
 		const selectedFilesArray = Array.from(selectedFiles);
 		setFile(selectedFilesArray);
-		console.log("selectedFilesArray", selectedFilesArray);
 		const imagesArray = selectedFilesArray.map((file) => {
 			return URL.createObjectURL(file);
 		});
@@ -76,7 +75,6 @@ const FilePopup = ({ setShowPopUp, id, showPopUp }) => {
 		}
 		return isValid;
 	};
-	console.log("image", selectedImages);
 
 	return (
 		<>
@@ -162,9 +160,10 @@ const FilePopup = ({ setShowPopUp, id, showPopUp }) => {
 							onClick={() => {
 								if (validateFieldLevel2()) {
 									setIsLoadingContracts(true);
-									showPopUp[1](id, justification, file).finally(() => {
+									showPopUp[1](id, currency, justification, file).finally(() => {
 										setIsLoadingContracts(false);
 										setShowPopUp([false]);
+										onRefresh()
 									});
 								}
 							}}

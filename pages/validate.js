@@ -8,7 +8,7 @@ import { FaSearch } from "react-icons/fa";
 
 const validate = () => {
 
-    const {currentAccount, validations } = useContext(EscrowContext);
+    const {currentAccount, validations, connectWallet } = useContext(EscrowContext);
     const [contracts, setContracts] = useState([])
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,15 +16,25 @@ const validate = () => {
 	const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+		if(!currentAccount){
+			connectWallet();
+		}
+
+		getValidations();
+	}, [currentAccount]);
+
+
+	const getValidations = () => {
 		if (currentAccount) {
 			const data = validations().then((items) => {
-                setContracts(items);
+				setContracts(items);
 				setLoading(false);
 
-              });
-            // setContracts(data);
+			});
+			// setContracts(data);
 		}
-	}, [currentAccount]);
+	};
+
   // const filteredContracts = contracts.filter(
 	// 	(item) =>
 	// 		item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -68,7 +78,7 @@ const validate = () => {
 						<p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-[2rem] font-light text-zinc-400">No contracts found.</p>
 					) : (
 						contractsForPage.map((item, index) => (
-							<ContractInfoBoxAssign contract={item}/> 
+							<ContractInfoBoxAssign key={index} contract={item} onRefresh={getValidations}/>
 						))
 					)}
 

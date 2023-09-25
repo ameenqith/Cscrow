@@ -5,7 +5,7 @@ import Head from "next/head";
 import { FaSearch } from "react-icons/fa";
 
 const assigned = () => {
-    const { currentAccount, getMyContractsAssignee } = useContext(EscrowContext);
+    const { currentAccount, getMyContractsAssignee, connectWallet } = useContext(EscrowContext);
     const [searchQuery, setSearchQuery] = useState("");
     const [loading, setLoading] = useState(true);
     const [contracts, setContracts] = useState([]);
@@ -13,13 +13,21 @@ const assigned = () => {
 	const itemsPerPage = 6;
 
     useEffect(() => {
+        if(!currentAccount){
+            connectWallet();
+        }
+
+        getContractsAssignees();
+    }, [currentAccount]);
+
+    const getContractsAssignees = () =>{
         if (currentAccount) {
             getMyContractsAssignee().then((items) => {
                 setContracts(items);
                 setLoading(false);
             });
         }
-    }, [currentAccount]);
+    }
 
     const filteredContracts = (contracts || []).filter(
         (item) =>
@@ -97,7 +105,7 @@ const assigned = () => {
 						<p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-[2rem] font-light text-zinc-400">No contracts found.</p>
 					) : (
 						contractsForPage.map((item, index) => (
-							<ContractInfoBox key={index} contract={item} />
+							<ContractInfoBox key={index} contract={item} onRefresh={getContractsAssignees} />
 						))
 					)}
 
