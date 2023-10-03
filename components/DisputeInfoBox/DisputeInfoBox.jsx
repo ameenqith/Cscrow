@@ -90,7 +90,9 @@ const DisputeInfoBox = ({dispute, onRefresh}) => {
 						<>
 							{dispute.escrowStatus === 5 &&
 								dispute.status === 0 &&
-								currentAccount.toLowerCase() === dispute.assignor && (
+								((dispute.assigneeCreatedDispute && currentAccount.toLowerCase() === dispute.assignor) ||
+								(!dispute.assigneeCreatedDispute && currentAccount.toLowerCase() === dispute.assignee))
+								 && (
 									<>
 										<Button
 											btnName="Accept"
@@ -103,7 +105,7 @@ const DisputeInfoBox = ({dispute, onRefresh}) => {
 											}}
 										/>
 										<Button
-											btnName="Create dispute"
+											btnName="Create dispute level 2"
 											handleClick={() =>
 												setShowPopUp([true, createDisputeLevel2])
 											}
@@ -111,16 +113,20 @@ const DisputeInfoBox = ({dispute, onRefresh}) => {
 									</>
 								)}
 							{dispute.escrowStatus === 5 &&
-								dispute.status === 0 &&
-								currentAccount.toLowerCase() === dispute.assignee && (
+								dispute.status === 0 && (
+								(dispute.assigneeCreatedDispute && currentAccount.toLowerCase() === dispute.assignee) ||
+								(!dispute.assigneeCreatedDispute && currentAccount.toLowerCase() === dispute.assignor))
+								&& (
 									<p className="text-md text-red-500 itali">
 										Wait for the other party for dispute
 									</p>
 								)}
 							{dispute.escrowStatus === 5 &&
 							dispute.status === 1 &&
-							dispute.assigneeCreatedDispute &&
-							currentAccount.toLowerCase() === dispute.assignee &&
+							// dispute.assigneeCreatedDispute &&
+							// currentAccount.toLowerCase() === dispute.assignee &&
+							((dispute.assigneeCreatedDispute && currentAccount.toLowerCase() === dispute.assignee) ||
+								(!dispute.assigneeCreatedDispute && currentAccount.toLowerCase() === dispute.assignor)) &&
 							!dispute.validationStarted ? (
 								<>
 									<Button

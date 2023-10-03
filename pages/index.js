@@ -11,22 +11,26 @@ import Head from "next/head";
 const coinmarketcap = process.env.NEXT_PUBLIC_COINMARKET_API;
 
 const currencyObj = {
-	matic: {
-		token_address: "0x000000000000000000000000000000000000dEaD",
-		token: false,
-	},
-	weth: {
-		token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
-		token: true,
-	},
 	usdt: {
-		token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
+		token_address: "0x4ED8fFc1Dd1dc6569c8285b0C7a1C93933B8826f",
 		token: true,
 	},
-	usdc: {
-		token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
-		token: true,
-	},
+	// matic: {
+	// 	token_address: "0x000000000000000000000000000000000000dEaD",
+	// 	token: false,
+	// },
+	// weth: {
+	// 	token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
+	// 	token: true,
+	// },
+	// usdt: {
+	// 	token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
+	// 	token: true,
+	// },
+	// usdc: {
+	// 	token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
+	// 	token: true,
+	// },
 };
 const Home = () => {
 	if (typeof window !== "undefined") {
@@ -201,6 +205,7 @@ const Home = () => {
 
 	const [collaboratorError, setCollaboratorError] = useState("");
 	const [amountError, setAmountError] = useState("");
+	const [error, setError] = useState("");
 	const [amountUSDError, setAmountUSDError] = useState("");
 	const [titleError, setTitleError] = useState("");
 	const [detailsError, setDetailsError] = useState("");
@@ -240,7 +245,6 @@ const Home = () => {
 
 	const convertFromUSD = async () => {
 		try {
-			console.log(coinmarketcap);
 			await axios
 				.get(
 					"https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=matic",
@@ -249,7 +253,6 @@ const Home = () => {
 					}
 				)
 				.then((response) => {
-					console.log(response.data.MATIC);
 					setAmount(Number(response.data.MATIC) * Number(amountUSD));
 				});
 		} catch (error) {
@@ -450,11 +453,11 @@ const Home = () => {
 							<input
 								type="number"
 								id="amountUSD"
-								value={currency === "usdt" ? "" : amountUSD}
+								// value={currency === "usdt" ? "" : amountUSD}
 								onChange={handleAmountUSDChange}
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								required
-								disabled={currency === "usdt"}
+								// disabled={currency === "usdt"}
 							/>
 							<p className="text-red-500 text-xs mt-2">{amountUSDError}</p>
 						</div>
@@ -495,7 +498,8 @@ const Home = () => {
 											details,
 											currencyDetail.token,
 											currencyDetail.token_address
-										).finally(() => {
+										)
+											.finally(() => {
 											setIsLoading(false); // Stop loading
 											setTitle("");
 											setCollaborator("");
@@ -508,6 +512,7 @@ const Home = () => {
 								}}
 							/>
 						)}
+						<p className="text-red-500 text-xs mt-2">{error}</p>
 					</div>
 
 					<div className="flex justify-end">

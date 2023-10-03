@@ -44,7 +44,6 @@ const SliderPopup = ({ setShowPopUp, validate, showPopUp }) => {
 	const [currencyError, setCurrencyError] = useState("");
 	const [justificationError, setJustficationError] = useState("");
 	const [isLoadingContracts, setIsLoadingContracts] = useState(false);
-	console.log("showPopUp", showPopUp);
 	const popupRef = useRef(null);
 	const handleCurrencyChange = (e) => {
 		setCurrency(e.target.value);
@@ -119,7 +118,7 @@ const SliderPopup = ({ setShowPopUp, validate, showPopUp }) => {
 				>
 					<Slider {...setting}>
 						{showPopUp[1] === "assignee"
-							? validate.contract.assigneeProfs.map((data, index) => (
+							? (validate?.assigneeProfs || []).map((data, index) => (
 
 									<img
 										src={data}
@@ -128,7 +127,7 @@ const SliderPopup = ({ setShowPopUp, validate, showPopUp }) => {
 										alt="vue images"
 									/>
 							  ))
-							: validate.contract.assignorProfs.map((data, index) => (
+							: (validate?.assignorProfs || []).map((data, index) => (
 									<img
 										src={data}
 										key={index}

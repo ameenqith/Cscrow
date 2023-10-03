@@ -5,7 +5,7 @@ import Head from "next/head";
 import { FaSearch } from "react-icons/fa";
 
 const claims = () => {
-    const { currentAccount, getPoolLength, pendingERC20, connectWallet } = useContext(EscrowContext);
+    const { currentAccount, rewardClaims, connectWallet } = useContext(EscrowContext);
     const [searchQuery, setSearchQuery] = useState("");
     const [loading, setLoading] = useState(true);
     const [rewards, setRewards] = useState([]);
@@ -25,15 +25,8 @@ const claims = () => {
 
 
     const getRewards = () => {
-        getPoolLength().then((numberOfPools) => {
-            for(let i = 0; i < numberOfPools; i++){
-                pendingERC20(i, currentAccount).then((amount) => {
-                    if(!amount || amount === '0.0') {
-                        return;
-                    }
-                    setRewards([...rewards, {pid: i, amount}]);
-                });
-            }
+        rewardClaims(currentAccount).then((items) => {
+            setRewards(items)
             setLoading(false);
         });
     }

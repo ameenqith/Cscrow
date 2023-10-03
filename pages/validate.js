@@ -8,58 +8,43 @@ import { FaSearch } from "react-icons/fa";
 
 const validate = () => {
 
-    const {currentAccount, validations, connectWallet } = useContext(EscrowContext);
+    const {currentAccount, validations, connectWallet, getDisputes, getOwner } = useContext(EscrowContext);
     const [contracts, setContracts] = useState([])
+    const [owner, setOwner] = useState()
 
   const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 6;
 	const [loading, setLoading] = useState(true);
-
     useEffect(() => {
 		if(!currentAccount){
 			connectWallet();
 		}
-
+		getOwner().then(res => {
+			setOwner(res);
+		});
 		getValidations();
 	}, [currentAccount]);
 
 
 	const getValidations = () => {
 		if (currentAccount) {
-			const data = validations().then((items) => {
-				setContracts(items);
+			Promise.all([validations(),getDisputes() ]).then(([validations, disputes]) => {
+				const resolvedDisputeIds = (disputes || []).filter(dispute => dispute.escrowStatus === 7).map(d => d.id);
+				const filteredValidations = (validations || []).filter(val => !resolvedDisputeIds.includes(val.disputeId));
+				setContracts(filteredValidations);
 				setLoading(false);
-
 			});
-			// setContracts(data);
 		}
 	};
 
-  // const filteredContracts = contracts.filter(
-	// 	(item) =>
-	// 		item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-	// 		item.id.toString().includes((searchQuery.toLowerCase()).toString())
-	// );
 	const totalPages = Math.ceil(contracts.length / itemsPerPage);
 	const startIndex = (currentPage - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
 	const contractsForPage = contracts.reverse().slice(startIndex, endIndex);
       return (
-      //   <div className="grid grid-cols-1 lg:px-10 lg:grid-cols-3">
-      //       <Head>
-			// 	<title>Validate Contract</title> {/* Set the title for the page */}
-			// </Head>
-      //       {contracts && contracts.map((item, index) => (
-      //           <ContractInfoBoxAssign contract={item}/> 
-      //       ))}
-      //   </div>
-
       <>
-      
       <div>
-		
-			{/* Centering container */}
-			{loading ? (
+					  {loading ? (
 				<>
 				<Head>
 						<title>validate contract is loading...</title> {/* Set the title for the page */}
@@ -78,7 +63,7 @@ const validate = () => {
 						<p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-[2rem] font-light text-zinc-400">No contracts found.</p>
 					) : (
 						contractsForPage.map((item, index) => (
-							<ContractInfoBoxAssign key={index} contract={item} onRefresh={getValidations}/>
+							<ContractInfoBoxAssign key={index} contract={item} onRefresh={getValidations} owner={owner} currentAccount={currentAccount}/>
 						))
 					)}
 

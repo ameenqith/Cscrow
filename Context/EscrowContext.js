@@ -108,6 +108,26 @@ export const EscrowProvider = ({ children }) => {
 	
 	// Rewards POOL calls
 	// function pendingERC20(uint256 _pid, address _user)
+	const rewardClaims = async (userAddress) => {
+		try {
+			const contract = await connectingWithRewardContract();
+			let poolLength = await contract.poolLength();
+			const claims = [];
+			for(let i = 0; i < poolLength.toNumber(); i++){
+				await contract.pendingERC20(i, userAddress)
+					.then((amount) => {
+						const formattedAmount =	ethers.utils.formatEther(amount)
+					if(!formattedAmount || formattedAmount === '0.0') {
+						return;
+					}
+					claims.push({pid: i, amount: formattedAmount});
+				});
+			}
+			return claims;
+		} catch (error) {
+			return [];
+		}
+	}
 	const pendingERC20 = async (pid, userAddress) => {
 		try {
 			const contract = await connectingWithRewardContract();
@@ -141,7 +161,6 @@ export const EscrowProvider = ({ children }) => {
 		try {
 			const contract = await connectingWithRewardContract();
 			const trx = await contract.poolInfo();
-			console.log(trx);
 		} catch (error) {
 			console.log(error);
 		}
@@ -171,9 +190,8 @@ export const EscrowProvider = ({ children }) => {
 				}
 			);
 			const res = await trx.wait();
-			console.log(res);
 		} catch (error) {
-			console.log(error);
+			return error;
 		}
 	};
 
@@ -183,6 +201,17 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.withdrawContract(id);
 			await trx.wait();
 		} catch (error) {
+			return error;
+		}
+	};
+
+	const getOwner = async () => {
+		try {
+			const contract = await connectingWithSmartContract();
+			const ownerAddr =  await contract.owner();
+			return ownerAddr.toLowerCase();
+		} catch (error) {
+			return null
 			console.log(error);
 		}
 	};
@@ -232,8 +261,6 @@ export const EscrowProvider = ({ children }) => {
 			if (currentAccount) {
 				const contract = await connectingWithSmartContract();
 				const trx = await contract.totalEscrows();
-
-				console.log(trx);
 			}
 		} catch (error) {
 			setError("Error while fetching listed NFTs");
@@ -245,7 +272,6 @@ export const EscrowProvider = ({ children }) => {
 			if (currentAccount) {
 				const contract = await connectingWithSmartContract();
 				const myContracts = await contract.getMyContracts(currentAccount);
-				console.log(currentAccount, myContracts);
 				if(!myContracts?.length) {
 					return [];
 				}
@@ -267,7 +293,6 @@ export const EscrowProvider = ({ children }) => {
 						});
 					}
 				}
-				console.log(data);
 				return data;
 			}
 		} catch (error) {
@@ -298,7 +323,6 @@ export const EscrowProvider = ({ children }) => {
 						});
 					}
 				}
-				console.log(data);
 				return data;
 			}
 		} catch (error) {
@@ -309,8 +333,6 @@ export const EscrowProvider = ({ children }) => {
 	const createDispureLevel1 = async (id, percentage, details) => {
 		try {
 			if (currentAccount) {
-				console.log(id, percentage, details);
-
 				const contract = await connectingWithSmartContract();
 				const escrow = await contract.escrows(id);
 				const amount = (Number(escrow.amount) * Number(percentage)) / 100;
@@ -324,12 +346,11 @@ export const EscrowProvider = ({ children }) => {
 	};
 
 	const acceptDispute = async (id) => {
-		console.log(id);
 		try {
 			if (currentAccount) {
 				const contract = await connectingWithSmartContract();
 				const trx = await contract.acceptDispute(Number(id));
-				await trx.wait();
+				// await trx.wait();
 			}
 		} catch (error) {
 			console.log(error);
@@ -379,7 +400,6 @@ export const EscrowProvider = ({ children }) => {
 		try {
 			const contract = await connectingWithSmartContract();
 			let ipfsImages = await uploadImages(imagesPath);
-			console.log(id, Number(amount), details, ipfsImages);
 			const trx = await contract.createDisputeLevel2(id, Number(amount), details, ipfsImages);
 			await trx.wait();
 		} catch (error) {
@@ -401,13 +421,13 @@ export const EscrowProvider = ({ children }) => {
 		}
 	};
 
-	const addProofsForDisputeLevel2 = async (id, details, imagesPath) => {
+	const addProofsForDisputeLevel2 = async (id, amount, details, imagesPath) => {
 		try {
-			console.log(id, details, imagesPath);
 			const contract = await connectingWithSmartContract();
 			let ipfsImages = await uploadImages(imagesPath);
 			const trx = await contract.addProofsForDisputeLevel2(
 				id,
+				Number(amount),
 				details,
 				ipfsImages
 			);
@@ -443,7 +463,6 @@ export const EscrowProvider = ({ children }) => {
 					assigneeDetails: dispute.assigneeDetails,
 				});
 			}
-			console.log(data);
 			return data;
 		} catch (error) {
 			console.log(error);
@@ -452,12 +471,13 @@ export const EscrowProvider = ({ children }) => {
 
 	const runResolveDispute = async (id) => {
 		try {
-			console.log(id);
-			const KEY = process.env.NEXT_PUBLIC_KEY;
-			const rpc = process.env.NEXT_PUBLIC_RPC;
-			const provider = new ethers.providers.JsonRpcProvider(rpc);
-			const wallet = new ethers.Wallet(KEY, provider);
-			const contract = new ethers.Contract(escrowAddress, escrowABI, wallet);
+			// console.log(id);
+			// const KEY = process.env.NEXT_PUBLIC_KEY;
+			// const rpc = process.env.NEXT_PUBLIC_RPC;
+			// const provider = new ethers.providers.JsonRpcProvider(rpc);
+			// const wallet = new ethers.Wallet(KEY, provider);
+			// const contract = new ethers.Contract(escrowAddress, escrowABI, wallet);
+			const contract = await connectingWithSmartContract();
 			const trx = await contract.resolveDispute(id);
 			await trx.wait();
 		} catch (error) {
@@ -516,7 +536,9 @@ export const EscrowProvider = ({ children }) => {
 				claimReward,
 				pendingERC20,
 				getPoolInfo,
-				getPoolLength
+				getPoolLength,
+				getOwner,
+				rewardClaims,
 			}}
 		>
 			{children}
