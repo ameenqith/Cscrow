@@ -3,7 +3,7 @@ import Web3Modal from "web3modal";
 import {ethers} from "ethers";
 import {create as ipfsHttpClient} from "ipfs-http-client";
 //INTERNAL  IMPORT
-import {escrowABI, escrowAddress, rewardPoolABI, rewardPoolAddress} from "./constants";
+import {escrowABI, escrowAddress, rewardPoolABI, rewardPoolAddress, usdtABI, usdtAddress} from "./constants";
 import {useWeb3Modal} from "@web3modal/react";
 import {useAccount} from "wagmi";
 
@@ -27,6 +27,10 @@ const client = ipfsHttpClient({
 // start reward pool contract
 const fetchRewardContract = async (signerOrProvider) => {
 	return new ethers.Contract(rewardPoolAddress, rewardPoolABI, signerOrProvider);
+};
+
+const fetchUSDTContract = async (signerOrProvider) => {
+	return new ethers.Contract(usdtAddress, usdtABI, signerOrProvider);
 };
 
 const connectingWithRewardContract = async () => {
@@ -57,6 +61,18 @@ const connectingWithSmartContract = async () => {
 		const provider = new ethers.providers.Web3Provider(connection);
 		const signer = provider.getSigner();
 		const contract = await fetchContract(signer);
+		return contract;
+	} catch (error) {
+		console.log("Something went wrong while connecting with contract", error);
+	}
+};
+const connectingWithTokenContract = async () => {
+	try {
+		const web3Modal = new Web3Modal();
+		const connection = await web3Modal.connect();
+		const provider = new ethers.providers.Web3Provider(connection);
+		const signer = provider.getSigner();
+		const contract = await fetchUSDTContract(signer);
 		return contract;
 	} catch (error) {
 		console.log("Something went wrong while connecting with contract", error);
@@ -177,6 +193,9 @@ export const EscrowProvider = ({ children }) => {
 		tokenAddress
 	) => {
 		try {
+			const token = await connectingWithTokenContract();
+			const trxApprove = await token.approve(escrowAddress, ethers.utils.parseEther(amount, "ether"));
+			await trxApprove.wait();
 			const contract = await connectingWithSmartContract();
 			const trx = await contract.createContract(
 				collaborator.toLowerCase(),

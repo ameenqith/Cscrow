@@ -4,7 +4,7 @@ import { ContractInfoBox } from "../components/componentsindex.js";
 import Head from "next/head";
 import { FaSearch } from "react-icons/fa";
 
-const assigned = () => {
+const received = () => {
     const { currentAccount, getMyContractsAssignee, connectWallet } = useContext(EscrowContext);
     const [searchQuery, setSearchQuery] = useState("");
     const [loading, setLoading] = useState(true);
@@ -153,4 +153,4 @@ const assigned = () => {
     );
 };
 
-export default assigned;
+export default received;

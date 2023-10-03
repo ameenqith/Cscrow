@@ -30,10 +30,10 @@ const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
 			</div>
 			<div className={Style.sideBar_menu}>
 				<div className={Style.sideBar_menu_box} onClick={() => closeSideBar()}>
-					<Link href="/created">sent</Link>
+					<Link href="/sender">sent</Link>
 				</div>
 				<div className={Style.sideBar_menu_box} onClick={() => closeSideBar()}>
-					<Link href="/assigned">received</Link>
+					<Link href="/received">received</Link>
 				</div>
 				<div className={Style.sideBar_menu_box} onClick={() => closeSideBar()}>
 					<Link href="/validate">validate</Link>

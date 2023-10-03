@@ -49,7 +49,7 @@ const NavBar = () => {
 					<div className={Style.navbar_container_right}>
 						<div className={Style.navbar_container_right_help}>
 							<Link
-								href="/created"
+								href="/sender"
 								className="headerLink text-white capitalize"
 							>
 								Sender
@@ -57,7 +57,7 @@ const NavBar = () => {
 						</div>
 						<div className={Style.navbar_container_right_help}>
 							<Link
-								href="/assigned"
+								href="/received"
 								className="headerLink text-white capitalize"
 							>
 								Received
@@ -68,7 +68,7 @@ const NavBar = () => {
 								href="/dispute"
 								className="headerLink text-white capitalize"
 							>
-								Disputes
+								Dispute
 							</Link>
 						</div>
 						<div className={Style.navbar_container_right_help}>
@@ -76,15 +76,15 @@ const NavBar = () => {
 								href="/validate"
 								className="headerLink text-white capitalize"
 							>
-								Validators
+								Validate
 							</Link>
 						</div>
 						<div className={Style.navbar_container_right_help}>
 							<Link
-								href="/claims"
+								href="/claim"
 								className="headerLink text-white capitalize"
 							>
-								claims
+								Claim
 							</Link>
 						</div>
 						<div className={Style.navbar_container_right_help}>
