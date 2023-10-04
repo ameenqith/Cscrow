@@ -6,7 +6,7 @@ import { MdArrowRightAlt } from "react-icons/md";
 import { EscrowContext } from "../../Context/EscrowContext";
 import Popup from "../PopUp/Popup";
 
-export const ContractInfoBox = ({contract, onRefresh}) => {
+export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 	const [isLoadingContracts, setIsLoadingContracts] = useState(false);
 	const [showPopUp, setShowPopUp] = useState(false);
 
@@ -225,7 +225,7 @@ export const ContractInfoBox = ({contract, onRefresh}) => {
 						) : (
 							<>
 								{contract.status === 0 &&
-									currentAccount === contract.assignor && (
+									currentAccount === contract.assignor && isSender && (
 										<>
 											<Button
 												btnName="Withdraw"
@@ -244,7 +244,7 @@ export const ContractInfoBox = ({contract, onRefresh}) => {
 											/>
 										</>
 									)}
-								{currentAccount === contract.assignee &&
+								{currentAccount === contract.assignee && !isSender &&
 									contract.status === 0 && (
 										<>
 											<Button
@@ -271,7 +271,7 @@ export const ContractInfoBox = ({contract, onRefresh}) => {
 											</div>
 										</>
 									)}
-								{currentAccount === contract.assignor &&
+								{currentAccount === contract.assignor && isSender &&
 									contract.status === 1 && (
 										<Button
 											btnName="Cancel"
@@ -284,7 +284,7 @@ export const ContractInfoBox = ({contract, onRefresh}) => {
 											}}
 										/>
 									)}
-								{currentAccount === contract.assignee &&
+								{currentAccount === contract.assignee && !isSender &&
 									contract.status === 1 && (
 										<>
 											<Button
@@ -307,7 +307,7 @@ export const ContractInfoBox = ({contract, onRefresh}) => {
 											</div>
 										</>
 									)}
-								{currentAccount === contract.assignor &&
+								{currentAccount === contract.assignor && isSender &&
 									contract.status === 2 && (
 										<>
 											<Button

@@ -72,7 +72,7 @@ const sender = () => {
 						<p className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-[2rem] font-light text-zinc-400">No contracts found.</p>
 					) : (
 						contractsForPage.map((item, index) => (
-							<ContractInfoBox key={index} contract={item} onRefresh={getContractsAssignors} />
+							<ContractInfoBox key={index} contract={item} isSender={true} onRefresh={getContractsAssignors} />
 						))
 					)}
 

@@ -84,17 +84,17 @@ export const ContractInfoBoxAssign = ({contract, onRefresh, owner = null, curren
                         Case Id: {contract.validatorId}
                     </p>
                     <p className="text-black text-sm capitalize">
-                        Sender Details: {contract.assignorDetails}
+                        Sender Details: {contract.sameAccount ? contract.assigneeDetails : contract.assignorDetails}
                     </p>
                     <p className="text-black text-sm capitalize">
                         Reciever Details: {contract.assigneeDetails}
                     </p>
                     <p className="text-black text-sm capitalize">
                         Sender proof:{" "}
-                        {contract.assignorProfs.length > 0 ? (
+                        {contract.assignorProfs.length > 0 || contract.sameAccount ? (
                             <span
                                 onClick={() => {
-                                    setShowPopUp([true, "assignor"]);
+                                    setShowPopUp([true, contract.sameAccount ? "assignee": "assignor"]);
                                 }}
                                 className="hover:underline text-fuchsia-500 font-bold cursor-pointer text-green-5 capitalize"
                             >

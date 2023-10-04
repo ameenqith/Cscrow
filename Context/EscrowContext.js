@@ -298,7 +298,7 @@ export const EscrowProvider = ({ children }) => {
 				for (let i = 0; i < myContracts.length; i++) {
 					let number = Number(myContracts[i]);
 					const escrow = await contract.escrows(number);
-					if (escrow.assignee.toLowerCase() === currentAccount) {
+					if (escrow.assignee.toLowerCase() === currentAccount && !data.map(d => d.id).includes(Number(escrow.id))) {
 						data.push({
 							id: Number(escrow.id),
 							title: escrow.title,
@@ -328,7 +328,7 @@ export const EscrowProvider = ({ children }) => {
 				for (let i = 0; i < myContracts.length; i++) {
 					let number = Number(myContracts[i]);
 					const escrow = await contract.escrows(number);
-					if (escrow.assignor.toLowerCase() === currentAccount) {
+					if (escrow.assignor.toLowerCase() === currentAccount && !data.map(d => d.id).includes(Number(escrow.id))) {
 						data.push({
 							id: Number(escrow.id),
 							title: escrow.title,
@@ -480,6 +480,7 @@ export const EscrowProvider = ({ children }) => {
 					assigneeProfs: proofs[1],
 					assignorDetails: dispute.assignorDetails,
 					assigneeDetails: dispute.assigneeDetails,
+					sameAccount: dispute.assignee.toLowerCase() === dispute.assignor.toLowerCase()
 				});
 			}
 			return data;
