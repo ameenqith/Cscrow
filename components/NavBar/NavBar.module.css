@@ -7,8 +7,8 @@
 }
 
 .navbar_container{
-    width: 90%;
-    margin:  0 auto;
+    width: 100%;
+    margin:  0 auto 32px;
     display:  grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
@@ -132,6 +132,7 @@
 .navbar_container_right_button{
     position: relative;
     cursor: pointer;
+    margin-left: 32px!important;
 }
 
 .navbar_container_right_profile_box{
@@ -183,22 +184,22 @@
 }
 
 @media screen and (min-device-width: 220px) and (max-device-width: 768px) {
-    .navbar_container{
+    .navbar_container {
         grid-template-columns: 1fr 1fr;
     }
-    
-    .navbar_container_right_profile{
-        height: 10vw; 
-        width: 10vw; 
+
+    .navbar_container_right_profile {
+        height: 10vw;
+        width: 10vw;
         border-radius: 50%;
         display: inline-block;
         margin-left: auto;
         margin-right: auto;
     }
 
-    .navbar_container_logo{
-        height: 10vw; 
-        width: 10vw; 
+    .navbar_container_logo {
+        height: 10vw;
+        width: 10vw;
         font-size: large;
         font-weight: 600;
         border-radius: 50%;
@@ -208,13 +209,17 @@
         margin-right: auto;
     }
 
-    .navbar_container_left{
+    .navbar_container_left {
         grid-template-columns: 1fr;
-        
+
     }
 
-    .navbar_container_right{
+    .navbar_container_right {
         grid-template-columns: repeat(4, 1fr);
+    }
+
+    .navbar_container {
+    display: none;
     }
 
     .navbar_container_right_menuBtn{

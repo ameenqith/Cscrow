@@ -13,9 +13,39 @@ import Image from "next/image";
 import images from "../../img";
 //IMPORT FROM SMART CONTRACT
 import { EscrowContext } from "../../Context/EscrowContext";
+import {BsInstagram, BsTwitter} from "react-icons/bs";
+import {FaDiscord, FaTiktok} from "react-icons/fa";
+
+function useScrollDirection() {
+	const [scrollDirection, setScrollDirection] = useState(null);
+
+	useEffect(() => {
+		let lastScrollY = window.pageYOffset;
+
+		const updateScrollDirection = () => {
+			const scrollY = window.pageYOffset;
+			const direction = scrollY > lastScrollY ? "down" : "up";
+			if (direction !== scrollDirection && (scrollY - lastScrollY > 10 || scrollY - lastScrollY < -10)) {
+				setScrollDirection(direction);
+			}
+			lastScrollY = scrollY > 0 ? scrollY : 0;
+		};
+		window.addEventListener("scroll", updateScrollDirection); // add event listener
+		return () => {
+			window.removeEventListener("scroll", updateScrollDirection); // clean up
+		}
+	}, [scrollDirection]);
+
+	return scrollDirection;
+};
 const NavBar = () => {
+
+	const scrollDirection = useScrollDirection();
+
+
 	const [openSideMenu, setOpenSideMenu] = useState(false);
 	const router = useRouter();
+	const activePage = router.pathname;
 	//SMART CONTRACT SECTION
 	const { currentAccount, connectWallet, disconnectWallet } =
 		useContext(EscrowContext);
@@ -31,102 +61,99 @@ const NavBar = () => {
 	return (
 		<div>
 			<div className={Style.navbar}>
-				<div className={Style.navbar_container}>
-					<div className={Style.navbar_container_left}>
-						<Link href="/" className="headerLink text-white">
-							<div>
-								<Image
-									className="flex object-cover object-right h-20 w-30"
-									src={images.logo}
-									alt="logo"
-									width={0}
-									height={0}
-								/>
+				<div
+					className={Style.navbar_container}>
+				<header
+					className={`flex ${scrollDirection==="down" ? 'justify-center bg-[rgba(49,49,49,.582)] p-5 rounded-b-xl' : 'justify-between p-10'} items-center mx-w-7xl mx-auto fixed w-full z-50`}
+				>
+					{ scrollDirection !== "down" ?
+						<>
+							<div className={"flex mt-10 cursor-pointer my-auto"}>
+								<Link href='/'>
+									{/*<div className="text-center">*/}
+										<div className="flex">
+											{/*<div className=" mr-[2px]">*/}
+																<Image
+																	className=""
+																	src={images.logo}
+																	alt="logo"
+																	width={120}
+																	height={20}/>
+											{/*</div>*/}
+										</div>
+									{/*</div>*/}
+								</Link>
 							</div>
-						</Link>
-					</div>
+							<div className={"flex mt-10 items-center cursor-pointer md:space-x-2 lg:space-x-5 text-white font-['Poppins']"}>
+								<Link href="/" legacyBehavior>
+									<h3
+										className={activePage==='/' ? 'activeMenuItem' : 'menuItem'}
+									>
+										Home
+									</h3>
+								</Link>
+								<Link href="/sent" legacyBehavior>
+									<h3
+										className={activePage==='/sent' ? 'activeMenuItem' : 'menuItem'}
+									>
+										Sent
+									</h3>
+								</Link>
 
-					<div className={Style.navbar_container_right}>
-						<div className={Style.navbar_container_right_help}>
-							<Link
-								href="/sender"
-								className="headerLink text-white capitalize"
-							>
-								Sender
-							</Link>
-						</div>
-						<div className={Style.navbar_container_right_help}>
-							<Link
-								href="/received"
-								className="headerLink text-white capitalize"
-							>
-								Received
-							</Link>
-						</div>
-						<div className={Style.navbar_container_right_help}>
-							<Link
-								href="/dispute"
-								className="headerLink text-white capitalize"
-							>
-								Dispute
-							</Link>
-						</div>
-						<div className={Style.navbar_container_right_help}>
-							<Link
-								href="/validate"
-								className="headerLink text-white capitalize"
-							>
-								Validate
-							</Link>
-						</div>
-						<div className={Style.navbar_container_right_help}>
-							<Link
-								href="/claim"
-								className="headerLink text-white capitalize"
-							>
-								Claim
-							</Link>
-						</div>
-						<div className={Style.navbar_container_right_help}>
-							<a
-								href="https://discord.gg/cscrow"
-								className="headerLink text-white capitalize"
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								Discord
-								{/* <Image
-									className="h-10 w-10"
-									src={images.discord}
-									alt="NFT images"
-									width={0}
-									height={0}
-								/> */}
-							</a>
-						</div>
-						<div className={Style.navbar_container_right_help}>
-							<a
-								href="https://twitter.com/cscrowdotcom"
-								className="headerLink text-white capitalize"
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								Twitter
-								{/* <Image
-									className="h-10 w-10"
-									src={images.twitter}
-									alt="NFT images"
-									width={0}
-									height={0}
-								/> */}
-							</a>
-						</div>
+								<Link href="/received" legacyBehavior>
+									<h3 className="inline-block md:hidden text-base text-white bg-purple-500 shadow-lg shadow-purple-500/50 px-4 py-1 rounded-full cursor-pointer">
+										Received
+									</h3>
+								</Link>
 
-						{/* CREATE BUTTON SECTION */}
-						<div className={Style.navbar_container_right_button}>
-							<Web3Button />
-						</div>
-					</div>
+								<Link href="/dispute" legacyBehavior>
+									<h3
+										className={activePage==='/dispute' ? 'activeMenuItem' : 'menuItem'}
+									>
+										Dispute
+									</h3>
+								</Link>
+
+								<Link href="/validate" legacyBehavior>
+									<h3
+										className={activePage==='/validate' ? 'activeMenuItem' : 'menuItem'}
+									>
+										Validate
+									</h3>
+								</Link>
+
+								<Link href="/claim" legacyBehavior>
+									<h3
+										className={activePage==='/claim' ? 'activeMenuItem' : 'menuItem'}
+									>
+										Claim
+									</h3>
+								</Link>
+										<div className={Style.navbar_container_right_button}>
+											<Web3Button />
+										</div>
+							</div>
+						</>
+						:
+						<>
+							<div className="flex justify-center items-center space-x-16 text-white font-['Poppins']">
+								<a href="https://twitter.com/cscrowdotcom" target='_blank'>
+									<div className="cursor-pointer rounded-lg transition duration-300 ease-in-out hover:opacity-50 ">
+										<BsTwitter size={24}/>
+									</div>
+
+								</a>
+								<a href="https://discord.gg/cscrow"  target='_blank'>
+									<div className="cursor-pointer rounded-lg transition duration-300 ease-in-out hover:opacity-50 ">
+										<FaDiscord size={24}/>
+									</div>
+								</a>
+							</div>
+						</>
+					}
+
+
+				</header>
 				</div>
 				<div className={Style.navbar_container_right_menuBtn}>
 					<div>

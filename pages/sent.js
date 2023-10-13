@@ -5,7 +5,7 @@ import Head from "next/head"
 import images from "../img";
 import { FaSearch } from "react-icons/fa";
 
-const sender = () => {
+const sent = () => {
 	const { currentAccount, getMyContractsAssignor,connectWallet } = useContext(EscrowContext);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [loading, setLoading] = useState(true);
@@ -119,4 +119,4 @@ const sender = () => {
 	);
 };
 
-export default sender;
+export default sent;

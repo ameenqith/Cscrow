@@ -30,7 +30,7 @@ const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
 			</div>
 			<div className={Style.sideBar_menu}>
 				<div className={Style.sideBar_menu_box} onClick={() => closeSideBar()}>
-					<Link href="/sender">sent</Link>
+					<Link href="/sent">sent</Link>
 				</div>
 				<div className={Style.sideBar_menu_box} onClick={() => closeSideBar()}>
 					<Link href="/received">received</Link>

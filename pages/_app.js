@@ -27,7 +27,6 @@ const MyApp = ({ Component, pageProps }) => (
 		<WagmiConfig config={wagmiConfig}>
 			<EscrowProvider>
 				<NavBar />
-
 				<Component {...pageProps} />
 				<ScrollToTop />
 				<Footer />

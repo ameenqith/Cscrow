@@ -8,31 +8,25 @@ import Image from "next/image";
 import { EscrowContext } from "../Context/EscrowContext";
 import axios from "axios";
 import Head from "next/head";
+import Faq from "../components/faq";
 const coinmarketcap = process.env.NEXT_PUBLIC_COINMARKET_API;
 
 const currencyObj = {
 	usdt: {
 		token_address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
-		// token_address: "0x4ED8fFc1Dd1dc6569c8285b0C7a1C93933B8826f",
 		token: true,
 	},
 	matic: {
-		// token_address: "0xA108830A23A9a054FfF4470a8e6292da0886A4D4",
-		token_address: "0x0000000000000000000000000000000000001010",
+		// token_address: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889", // mumbai
+		token_address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
 		token: true,
 	},
 	weth: {
 		token_address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
-		// token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
 		token: true,
 	},
-	// usdt: {
-	// 	token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
-	// 	token: true,
-	// },
 	usdc: {
 		token_address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
-		// token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
 		token: true,
 	},
 };
@@ -245,19 +239,22 @@ const Home = () => {
 		setCurrency(selectedCurrencyKey);
 		setCurrencyDetail(currencyObj[selectedCurrencyKey]);
 		setCurrencyError(""); // Clear the error message
+		setAmount('');
+		setAmountUSD('');
 	};
 
 	const convertFromUSD = async () => {
 		try {
+			const selectedCurrency = currency.toUpperCase();
 			await axios
 				.get(
-					"https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=matic",
+					`https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=${selectedCurrency}`,
 					{
 						headers: { Authorization: coinmarketcap },
 					}
 				)
 				.then((response) => {
-					setAmount(Number(response.data.MATIC) * Number(amountUSD));
+					setAmount(Number(response.data[selectedCurrency]) * Number(amountUSD));
 				});
 		} catch (error) {
 			console.log(error);
@@ -420,10 +417,6 @@ const Home = () => {
 									{currencyKey.toUpperCase()}
 								</option>
 							))}
-
-							{/* <option value="matic">Matic</option>
-              <option value="usdt">USDT</option>
-              <option value="usd">USD</option> */}
 						</select>
 						<p className="text-red-500 text-xs mt-2">{currencyError}</p>
 					</div>
@@ -457,7 +450,7 @@ const Home = () => {
 							<input
 								type="number"
 								id="amountUSD"
-								// value={currency === "usdt" ? "" : amountUSD}
+								value={amountUSD}
 								onChange={handleAmountUSDChange}
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 								required
@@ -535,126 +528,7 @@ const Home = () => {
 				/>
 			</div>
 
-			<div
-				className="container m-auto grid grid-cols-1 lg:gap-0 lg:grid-cols-3 mt-10 md:gap-5 lg:justify-evenly"
-				id="earn"
-			>
-				<div className="max-w-md bg-white opacity-70  lg:p-4 bg-purple shadow-md rounded-md mb-10 p-4 text-justify ">
-					<h1 className="text-black text-lg font-bold">For Sender</h1>
-					<p className="text-black">
-						Concerned about making upfront payments only to be left hanging by
-						your service provider? Utilize our CSCROW smart contracts to
-						safeguard your agreement, receive the service, and then make payment
-						based on the quality of the service rendered.{" "}
-					</p>
-					<br></br>
-					<p className="text-black">
-						• Log in using your Polygon Network wallet.{" "}
-					</p>
-					<p className="text-black">
-						• Fill in the necessary details and generate the contract.{" "}
-					</p>
-					<p className="text-black">
-						Once created, access the "Sent" page to track your contract's status
-						and progress.{" "}
-					</p>
-				</div>
-				<div className="max-w-md bg-white opacity-70 lg:p-4 bg-purple shadow-md rounded-md mb-10 p-4 text-justify">
-					<h1 className="text-black text-lg font-bold">For Receivers</h1>
-					<p className="text-black">
-						Tired of putting in honest and hard work, only to be ignored by
-						founders? Request payment via CSCROW and commence your service once
-						you've received the fully funded contract. If the founder unfairly
-						denies payment, you have the option to present your side of the
-						story in our decentralized court.
-					</p>
-					<br></br>
-					<p className="text-black">
-						• Log in using your Polygon Network wallet.{" "}
-					</p>
-					<p className="text-black">• Navigate to the "Received" page.</p>
-					<p className="text-black">• Review contracts sent by the Sender.</p>
-					<p className="text-black">
-						• Evaluate the contract and begin your work.
-					</p>
-				</div>
-				<div className="max-w-md bg-white opacity-70 lg:p-4 bg-purple shadow-md rounded-md mb-10 p-4 text-justify">
-					<h1 className="text-black text-lg font-bold">
-						What is a Level 1 dispute and how does it work?
-					</h1>
-					<p className="text-black">
-						A Level 1 dispute arises when both the sender and receiver agree to
-						alter the contract sum. They mutually decide to release a portion of
-						the agreed sum instead of the entire amount.
-					</p>
-					<br></br>
-					<p className="text-black">
-						• Either the Sender or Receiver cancels the contract.{" "}
-					</p>
-					<p className="text-black">
-						• The canceling party proposes the percentage of the original
-						contract to be released.
-					</p>
-					<p className="text-black">• The other party accepts the proposal.</p>
-					<p className="text-black">
-						• In the event of rejection, the dispute escalates to a Level 2
-						dispute.
-					</p>
-				</div>
-				<div className="max-w-md bg-white opacity-70 lg:p-4 bg-purple shadow-md rounded-md mb-10 p-4 text-justify">
-					<h1 className="text-black text-lg font-bold">
-						What is a Level 2 dispute and how does it work?
-					</h1>
-					<p className="text-black">
-						A Level 2 dispute occurs when there's no mutual agreement between
-						the sender and receiver. This leads both parties to present their
-						cases with evidence to the community for voting.
-					</p>
-					<br></br>
-					<p className="text-black">
-						• If no agreement is reached in a Level 1 dispute, the case
-						escalates to Level 2.{" "}
-					</p>
-					<p className="text-black">
-						• Both parties provide three items: the reason, proposal, and
-						evidence.
-					</p>
-				</div>
-				<div className="max-w-md bg-white opacity-70 lg:p-4 bg-purple shadow-md rounded-md mb-10 p-4 text-justify">
-					<h1 className="text-black text-lg font-bold">
-						How long does the voting last?
-					</h1>
-					<p className="text-black">
-						Voting lasts for 24 hours. Afterward, funds are automatically
-						released based on the winning proposal.
-					</p>
-				</div>
-				<div className="max-w-md bg-white opacity-70 lg:p-4 bg-purple shadow-md rounded-md mb-10 p-4 text-justify">
-					<h1 className="text-black text-lg font-bold">
-						What happens in case of a draw?
-					</h1>
-					<p className="text-black">
-						A tiebreaker vote will take place to determine the winner. The funds
-						will will be released as per winning proposal.
-					</p>
-				</div>
-				<div className="max-w-md bg-white opacity-70 lg:p-4 bg-purple shadow-md rounded-md mb-10 p-4 text-justify">
-					<h1 className="text-black text-lg font-bold">Judge to Earn</h1>
-					<p className="text-black">
-						The Judge to Earn program is designed to reward the CSCROW community
-						for their contributions to the fair and prompt resolution of
-						disputes within our decentralized platform.
-					</p>
-					<br></br>
-					<p className="text-black">
-						•The first 10 voters will each earn 1% of the contract's value.{" "}
-					</p>
-					<p className="text-black">
-						• All validators, including the initial 10 voters, will receive
-						token rewards stored on the blockchain upon launch.
-					</p>
-				</div>
-			</div>
+			<Faq/>
 		</div>
 	);
 };

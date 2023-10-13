@@ -101,3 +101,10 @@ a {
     background: var(--bg-color);
   }
 }
+
+
+@layer components {
+  .upDownIcon {
+    @apply text-gray-100 w-4 h-4 shrink-0
+  }
+}
