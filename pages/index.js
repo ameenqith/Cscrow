@@ -12,25 +12,29 @@ const coinmarketcap = process.env.NEXT_PUBLIC_COINMARKET_API;
 
 const currencyObj = {
 	usdt: {
-		token_address: "0x4ED8fFc1Dd1dc6569c8285b0C7a1C93933B8826f",
+		token_address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+		// token_address: "0x4ED8fFc1Dd1dc6569c8285b0C7a1C93933B8826f",
 		token: true,
 	},
-	// matic: {
-	// 	token_address: "0x000000000000000000000000000000000000dEaD",
-	// 	token: false,
-	// },
-	// weth: {
-	// 	token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
-	// 	token: true,
-	// },
+	matic: {
+		// token_address: "0xA108830A23A9a054FfF4470a8e6292da0886A4D4",
+		token_address: "0x0000000000000000000000000000000000001010",
+		token: true,
+	},
+	weth: {
+		token_address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+		// token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
+		token: true,
+	},
 	// usdt: {
 	// 	token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
 	// 	token: true,
 	// },
-	// usdc: {
-	// 	token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
-	// 	token: true,
-	// },
+	usdc: {
+		token_address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+		// token_address: "0xc84980f0E1985b9A66D0A51995c33D81Cf344bb8",
+		token: true,
+	},
 };
 const Home = () => {
 	if (typeof window !== "undefined") {

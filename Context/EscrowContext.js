@@ -193,9 +193,9 @@ export const EscrowProvider = ({ children }) => {
 		tokenAddress
 	) => {
 		try {
-			const token = await connectingWithTokenContract();
-			const trxApprove = await token.approve(escrowAddress, ethers.utils.parseEther(amount, "ether"));
-			await trxApprove.wait();
+			// const token = await connectingWithTokenContract();
+			// const trxApprove = await token.approve(escrowAddress, ethers.utils.parseEther(amount, "ether"));
+			// await trxApprove.wait();
 			const contract = await connectingWithSmartContract();
 			const trx = await contract.createContract(
 				collaborator.toLowerCase(),
