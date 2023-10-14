@@ -198,6 +198,7 @@ function Faq() {
 
             {/* 7 question */}
             <div
+                id="earn"
                 className={`flex justify-between md:w-[70vw] lg:w-[50vw] border border-slate-500 ${problemSeventh && "border-purple-600"} hover:border-purple-600 rounded-2xl py-4 px-6 items-center cursor-pointer hover:opacity-70 transition duration-200 shadow-md hover:shadow-slate-500 hover:scale-105`}
                 onClick={() => {setProblemSeventh(!problemSeventh)}}
             >

@@ -308,7 +308,7 @@ const Home = () => {
 		}
 	}, [amountUSD]);
 	return (
-		<div className="bg-purple-bg">
+		<div className="bg-purple-bg relative z-[60]">
 			<Head>
 				<title>Make Scam Free Crypto Payments</title>{" "}
 			</Head>
@@ -528,7 +528,7 @@ const Home = () => {
 				/>
 			</div>
 
-			<Faq/>
+			<Faq />
 		</div>
 	);
 };
