@@ -99,9 +99,10 @@ const NavBar = () => {
 										Sent
 									</h3>
 								</Link>
-
 								<Link href="/received" legacyBehavior>
-									<h3 className="inline-block md:hidden text-base text-white bg-purple-500 shadow-lg shadow-purple-500/50 px-4 py-1 rounded-full cursor-pointer">
+									<h3
+										className={activePage==='/received' ? 'activeMenuItem' : 'menuItem'}
+									>
 										Received
 									</h3>
 								</Link>
