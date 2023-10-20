@@ -18,8 +18,9 @@ const currencyObj = {
 	},
 	matic: {
 		// token_address: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889", // mumbai
-		token_address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-		token: true,
+		// token_address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",// ERC20
+		token_address: "0x0000000000000000000000000000000000001010",
+		token: false,
 	},
 	weth: {
 		token_address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
