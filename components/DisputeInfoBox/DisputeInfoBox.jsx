@@ -167,6 +167,7 @@ const DisputeInfoBox = ({dispute, onRefresh}) => {
 					id={dispute.id}
 					showPopUp={showPopUp}
 					onRefresh={onRefresh}
+					tokenAddress={dispute.tokenAddress}
 				/>
 			)}
 		</>

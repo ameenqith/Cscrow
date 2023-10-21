@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { EscrowContext } from "../../Context/EscrowContext";
 
-const FilePopup = ({ setShowPopUp, id, showPopUp, onRefresh }) => {
+const FilePopup = ({ setShowPopUp, id, showPopUp, onRefresh, tokenAddress }) => {
 	const [isLoadingContracts, setIsLoadingContracts] = useState(false);
 
 	const [selectedImages, setSelectedImages] = useState([]);
@@ -160,7 +160,7 @@ const FilePopup = ({ setShowPopUp, id, showPopUp, onRefresh }) => {
 							onClick={() => {
 								if (validateFieldLevel2()) {
 									setIsLoadingContracts(true);
-									showPopUp[1](id, currency, justification, file).finally(() => {
+									showPopUp[1](id, currency, justification, file, tokenAddress).finally(() => {
 										setIsLoadingContracts(false);
 										setShowPopUp([false]);
 										onRefresh()

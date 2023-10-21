@@ -188,6 +188,10 @@ export const EscrowProvider = ({ children }) => {
 		}
 	}
 
+	const isUSDToken = (tokenAddress) => {
+		return ['0xc2132D05D31c914a87C6611C10748AEb04B58e8F', '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'].includes(tokenAddress);
+	}
+
 	// end Rewards POOL calls
 
 	const createContract = async (
@@ -199,25 +203,28 @@ export const EscrowProvider = ({ children }) => {
 		tokenAddress
 	) => {
 		try {
+			const bigNum = isUSDToken(token ? tokenAddress : '') ? ethers.utils.parseUnits(amount.toString(), 6): ethers.utils.parseEther(amount.toString());
 			if(token) {
 				const tokenContract = await connectingWithTokenContract(tokenAddress);
-				const trxApprove = await tokenContract.approve(escrowAddress, ethers.utils.parseEther(amount, "ether"));
+				const trxApprove = await tokenContract.approve(escrowAddress,
+					bigNum)
 				await trxApprove.wait();
 			}
 			const contract = await connectingWithSmartContract();
 			const trx = await contract.createContract(
 				collaborator.toLowerCase(),
-				ethers.utils.parseEther(amount, "ether"),
+				bigNum,
 				details,
 				title,
 				token,
 				tokenAddress,
 				{
-					value: ethers.utils.parseEther(amount.toString()),
+					value: (bigNum),
 				}
 			);
 			const res = await trx.wait();
 		} catch (error) {
+			console.log(error);
 			return error;
 		}
 	};
@@ -363,8 +370,8 @@ export const EscrowProvider = ({ children }) => {
 				const contract = await connectingWithSmartContract();
 				const escrow = await contract.escrows(id);
 				const amount = (Number(escrow.amount) * Number(percentage)) / 100;
-
-				const trx = await contract.createDisputeLevel1(id, amount, details);
+				const bigNum = (isUSDToken(escrow.token ? escrow.tokenAddress : '') ? ethers.utils.parseUnits(amount.toString(), 6): ethers.utils.parseEther(amount.toString()))
+				const trx = await contract.createDisputeLevel1(id, bigNum, details);
 				await trx.wait();
 			}
 		} catch (error) {
@@ -413,6 +420,7 @@ export const EscrowProvider = ({ children }) => {
 						status: dispute.disputeLevel,
 						assigneeCreatedDispute: dispute.assigneeCreatedDispute,
 						validationStarted: dispute.validationStarted,
+						tokenAddress: escrow.token ? escrow.tokenAddress: '',
 					};
 					data.push(disputeInfo);
 				}
@@ -423,11 +431,12 @@ export const EscrowProvider = ({ children }) => {
 		}
 	};
 
-	const createDisputeLevel2 = async (id,amount, details, imagesPath) => {
+	const createDisputeLevel2 = async (id,amount, details, imagesPath, tokenAddress) => {
 		try {
 			const contract = await connectingWithSmartContract();
 			let ipfsImages = await uploadImages(imagesPath);
-			const trx = await contract.createDisputeLevel2(id, Number(amount), details, ipfsImages);
+			const bigNum = (isUSDToken(tokenAddress) ? ethers.utils.parseUnits(amount.toString(), 6): ethers.utils.parseEther(amount.toString()))
+			const trx = await contract.createDisputeLevel2(id, bigNum, details, ipfsImages);
 			await trx.wait();
 		} catch (error) {
 			console.log(error);
@@ -448,13 +457,14 @@ export const EscrowProvider = ({ children }) => {
 		}
 	};
 
-	const addProofsForDisputeLevel2 = async (id, amount, details, imagesPath) => {
+	const addProofsForDisputeLevel2 = async (id, amount, details, imagesPath, tokenAddress) => {
 		try {
 			const contract = await connectingWithSmartContract();
 			let ipfsImages = await uploadImages(imagesPath);
+			const bigNum = (isUSDToken(tokenAddress) ? ethers.utils.parseUnits(amount.toString(), 6): ethers.utils.parseEther(amount.toString()))
 			const trx = await contract.addProofsForDisputeLevel2(
 				id,
-				Number(amount),
+				bigNum,
 				details,
 				ipfsImages
 			);
