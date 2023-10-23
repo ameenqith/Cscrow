@@ -67,6 +67,9 @@ a {
   text-decoration: none;
 }
 
+.z-1000{
+  z-index: 1000;
+}
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: none;

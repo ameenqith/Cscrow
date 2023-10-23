@@ -108,7 +108,7 @@ const SliderPopup = ({ setShowPopUp, validate, showPopUp }) => {
 	return (
 		<>
 			<div className="fixed top-0 left-0 bottom-0 right-0"></div>
-			<div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-popup-bg">
+			<div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-popup-bg z-[1000]">
 				<span className="absolute right-5 top-5 text-[2rem] cursor-pointer">
 					<FaTimes />
 				</span>

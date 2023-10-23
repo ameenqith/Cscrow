@@ -189,7 +189,7 @@ export const EscrowProvider = ({ children }) => {
 	}
 
 	const isUSDToken = (tokenAddress) => {
-		return ['0xc2132D05D31c914a87C6611C10748AEb04B58e8F', '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'].includes(tokenAddress);
+		return ["0xc2132D05D31c914a87C6611C10748AEb04B58e8F", '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'].includes(tokenAddress);
 	}
 
 	// end Rewards POOL calls
@@ -481,9 +481,9 @@ export const EscrowProvider = ({ children }) => {
 			let data = [];
 			for (let i = 0; i < totalValidators; i++) {
 				const validator = await contract.validators(i);
+				const escrow = await contract.escrows(i);
 				const dispute = await contract.disputes(validator.disputeId);
 				const proofs = await contract.getProofs(validator.disputeId);
-
 				data.push({
 					validatorId: Number(i),
 					disputeId: Number(validator.disputeId),
@@ -498,7 +498,11 @@ export const EscrowProvider = ({ children }) => {
 					assigneeProfs: proofs[1],
 					assignorDetails: dispute.assignorDetails,
 					assigneeDetails: dispute.assigneeDetails,
-					sameAccount: dispute.assignee.toLowerCase() === dispute.assignor.toLowerCase()
+					sameAccount: dispute.assignee.toLowerCase() === dispute.assignor.toLowerCase(),
+					assignorAddress: escrow.assignee,
+					assigneeAddress: escrow.assignor,
+					assigneeAmount: Number(ethers.utils.formatEther(dispute.amountDisputedAssignee ?? 0)),
+					assignorAmount: Number(ethers.utils.formatEther(dispute.amountDisputedAssignor ?? 0)),
 				});
 			}
 			return data;

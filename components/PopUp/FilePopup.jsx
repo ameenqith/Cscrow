@@ -78,7 +78,7 @@ const FilePopup = ({ setShowPopUp, id, showPopUp, onRefresh, tokenAddress }) => 
 
 	return (
 		<>
-			<div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-popup-bg">
+			<div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-popup-bg z-[1000]">
 				<div
 					ref={popupRef}
 					className="bg-white flex flex-col items-center w-full md:w-1/2 lg:w-1/3 rounded-lg shadow-lg p-6 mb-6 lg:ml-4 lg:mr-0 z-50 overflow-y-auto max-h-screen"

@@ -83,29 +83,15 @@ export const ContractInfoBoxAssign = ({contract, onRefresh, owner = null, curren
                     <p className="text-black text-sm capitalize">
                         Case Id: {contract.validatorId}
                     </p>
+                    <br/>
                     <p className="text-black text-sm capitalize">
-                        Sender Details: {contract.sameAccount ? contract.assigneeDetails : contract.assignorDetails}
+                        Receiver Address: {contract.assigneeAddress}
                     </p>
                     <p className="text-black text-sm capitalize">
-                        Reciever Details: {contract.assigneeDetails}
+                        Receiver Proposal:  {contract.assigneeAmount}%
                     </p>
                     <p className="text-black text-sm capitalize">
-                        Sender proof:{" "}
-                        {contract.assignorProfs.length > 0 || contract.sameAccount ? (
-                            <span
-                                onClick={() => {
-                                    setShowPopUp([true, contract.sameAccount ? "assignee": "assignor"]);
-                                }}
-                                className="hover:underline text-fuchsia-500 font-bold cursor-pointer text-green-5 capitalize"
-                            >
-								see proof
-							</span>
-                        ) : (
-                            <span
-                                className="hover:underline text-red-500 font-bold cursor-pointer text-green-5 capitalize">
-								no proofs provided
-							</span>
-                        )}
+                        Receiver Reason: {contract.assigneeDetails}
                     </p>
                     <div className="text-black text-sm capitalize">
                         Reciever proof:{" "}
@@ -125,6 +111,38 @@ export const ContractInfoBoxAssign = ({contract, onRefresh, owner = null, curren
 							</span>
                         )}
                     </div>
+                    <br/>
+
+                    <p className="text-black text-sm capitalize">
+                        Sender Address: {contract.sameAccount ? contract.assigneeAddress : contract.assignorAddress}
+                    </p>
+                    <p className="text-black text-sm capitalize">
+                        Sender Proposal: {contract.sameAccount ? contract.assigneeAmount : contract.assignorAmount}%
+                    </p>
+                    <p className="text-black text-sm capitalize">
+                        Sender Reason: {contract.sameAccount ? contract.assigneeDetails : contract.assignorDetails}
+                    </p>
+
+
+
+                    <p className="text-black text-sm capitalize">
+                        Sender proof:{" "}
+                        {contract.assignorProfs.length > 0 || contract.sameAccount ? (
+                            <span
+                                onClick={() => {
+                                    setShowPopUp([true, contract.sameAccount ? "assignee": "assignor"]);
+                                }}
+                                className="hover:underline text-fuchsia-500 font-bold cursor-pointer text-green-5 capitalize"
+                            >
+								see proof
+							</span>
+                        ) : (
+                            <span
+                                className="hover:underline text-red-500 font-bold cursor-pointer text-green-5 capitalize">
+								no proofs provided
+							</span>
+                        )}
+                    </p>
                     {/* <p className="text-black text-sm capitalize">
 						Timer : {getMonth} {getDate},{getYear} {ctime}
 					</p> */}
