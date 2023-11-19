@@ -5,11 +5,17 @@ import images from "../../img";
 import { MdArrowRightAlt } from "react-icons/md";
 import { EscrowContext } from "../../Context/EscrowContext";
 import Popup from "../PopUp/Popup";
+import {currencyObj} from "../../pages";
 
 export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 	const [isLoadingContracts, setIsLoadingContracts] = useState(false);
 	const [showPopUp, setShowPopUp] = useState(false);
-
+	const currencyObjTokens = Object.keys(currencyObj).reduce((acc, key) => {
+		if (currencyObj[key].token) {
+			acc[currencyObj[key].token_address] = key.toUpperCase();
+		}
+		return acc;
+	}, {});
 	const {
 		acceptContract,
 		currentAccount,
@@ -55,7 +61,7 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 						Details: {contract.details}
 					</p>
 					<p className="text-black text-sm">
-						Total in Tokens: {contract.amount} Matic
+						Total in Tokens: {contract.amount} {contract.token ? currencyObjTokens[contract.tokenAddress]: 'Matic'}
 					</p>
 				</div>
 
@@ -72,11 +78,7 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 							<span className="text-black">
 								<MdArrowRightAlt className="mt-0 lg:mt-1" />
 							</span>
-							<span className="text-black text-xs lg:text-sm">Completed</span>
-							<span className="text-black">
-								<MdArrowRightAlt className="mt-0 lg:mt-1" />
-							</span>
-							<span className="text-black text-xs lg:text-sm">Approved</span>
+1							<span className="text-black text-xs lg:text-sm">Approved</span>
 						</div>
 					) : contract.status === 2 ? (
 						<div className="flex justify-center italic font-semibold border border-black">
@@ -89,12 +91,6 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 								<MdArrowRightAlt className="mt-0 lg:mt-1" />
 							</span>
 
-							<span className="text-green-500 text-xs lg:text-sm">
-								Completed
-							</span>
-							<span className="text-black">
-								<MdArrowRightAlt className="mt-0 lg:mt-1" />
-							</span>
 							<span className="text-black text-xs lg:text-sm">Approved</span>
 						</div>
 					) : contract.status === 3 ? (
@@ -108,10 +104,6 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 								<MdArrowRightAlt className="mt-0 lg:mt-1" />
 							</span>
 
-							<span className="text-black text-xs lg:text-sm">Completed</span>
-							<span className="text-black">
-								<MdArrowRightAlt className="mt-0 lg:mt-1" />
-							</span>
 							<span className="text-green-500 text-xs lg:text-sm">
 								Approved
 							</span>
@@ -123,11 +115,6 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 								<MdArrowRightAlt className="mt-0 lg:mt-1" />
 							</span>
 							<span className="text-black text-xs lg:text-sm">Accepted</span>
-							<span className="text-black">
-								<MdArrowRightAlt className="mt-0 lg:mt-1" />
-							</span>
-
-							<span className="text-black text-xs lg:text-sm">Completed</span>
 							<span className="text-black">
 								<MdArrowRightAlt className="mt-0 lg:mt-1" />
 							</span>
@@ -144,10 +131,6 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 								<MdArrowRightAlt className="mt-0 lg:mt-1" />
 							</span>
 
-							<span className="text-black text-xs lg:text-sm">Completed</span>
-							<span className="text-black">
-								<MdArrowRightAlt className="mt-0 lg:mt-1" />
-							</span>
 							<span className="text-red-500 text-xs lg:text-sm">Withdraw</span>
 						</div>
 					) : contract.status === 5 ? (
@@ -161,10 +144,6 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 								<MdArrowRightAlt className="mt-0 lg:mt-1" />
 							</span>
 
-							<span className="text-black text-xs lg:text-sm">Completed</span>
-							<span className="text-black">
-								<MdArrowRightAlt className="mt-0 lg:mt-1" />
-							</span>
 							<span className="text-red-500 text-xs lg:text-sm">Disputed</span>
 						</div>
 					) : (
@@ -176,11 +155,6 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 								<MdArrowRightAlt className="mt-0 lg:mt-1" />
 							</span>
 							<span className="text-black text-xs lg:text-sm">Accepted</span>
-							<span className="text-black">
-								<MdArrowRightAlt className="mt-0 lg:mt-1" />
-							</span>
-
-							<span className="text-black text-xs lg:text-sm">Completed</span>
 							<span className="text-black">
 								<MdArrowRightAlt className="mt-0 lg:mt-1" />
 							</span>
@@ -271,32 +245,10 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 											</div>
 										</>
 									)}
-								{currentAccount === contract.assignor && isSender &&
-									contract.status === 1 && (
-										<Button
-											btnName="Cancel"
-											handleClick={() => {
-												setIsLoadingContracts(true); // Start loading contracts
-												cancelContract(contract.id).finally(() => {
-													setIsLoadingContracts(false); // Stop loading contracts
-													onRefresh()
-												});
-											}}
-										/>
-									)}
+
 								{currentAccount === contract.assignee && !isSender &&
 									contract.status === 1 && (
 										<>
-											<Button
-												btnName="Complete"
-												handleClick={() => {
-													setIsLoadingContracts(true); // Start loading contracts
-													completeContract(contract.id).finally(() => {
-														setIsLoadingContracts(false); // Stop loading contracts
-														onRefresh()
-													});
-												}}
-											/>
 											<div className="ml-2">
 												<Button
 													btnName="Cancel"
@@ -308,7 +260,7 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 										</>
 									)}
 								{currentAccount === contract.assignor && isSender &&
-									contract.status === 2 && (
+									contract.status === 1 && (
 										<>
 											<Button
 												btnName="Approve"
@@ -340,7 +292,7 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 				</div>
 			</div>
 			{showPopUp && (
-				<Popup setShowPopUp={setShowPopUp} escrowId={contract.id} />
+				<Popup setShowPopUp={setShowPopUp} escrowId={contract.id}  setIsLoadingContracts={setIsLoadingContracts} />
 			)}
 		</>
 	);

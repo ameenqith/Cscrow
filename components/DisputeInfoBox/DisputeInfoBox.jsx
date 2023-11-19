@@ -6,10 +6,16 @@ import { MdArrowRightAlt } from "react-icons/md";
 import { EscrowContext } from "../../Context/EscrowContext";
 import Popup from "../PopUp/Popup";
 import FilePopup from "../PopUp/FilePopup";
+import {currencyObj} from "../../pages";
 
 const DisputeInfoBox = ({dispute, onRefresh}) => {
 	const [isLoadingContracts, setIsLoadingContracts] = useState(false);
-
+	const currencyObjTokens = Object.keys(currencyObj).reduce((acc, key) => {
+		if (currencyObj[key].token) {
+			acc[currencyObj[key].token_address] = key.toUpperCase();
+		}
+		return acc;
+	}, {});
 	const [showPopUp, setShowPopUp] = useState([false,null]);
 	const {
 		acceptDispute,
@@ -57,13 +63,15 @@ const DisputeInfoBox = ({dispute, onRefresh}) => {
 						Details: {dispute.escrowDescription}
 					</p>
 					<p className="text-black text-sm">
-						Amount: {dispute.amount} Matic
+						Amount: {dispute.amount} {dispute.token ? currencyObjTokens[dispute.tokenAddress]: 'Matic'}
 					</p>
 					<p className="text-black text-sm">
-						Sender Disputed Amount: {dispute.disputedamount} Matic
+						{/*Sender Disputed Amount: {dispute.disputedamount} Matic*/}
+						Sender Disputed: {dispute.amountDisputedAssignor} %
 					</p>
 					<p className="text-black text-sm">
-						Receiver Disputed Amount: {dispute.disputedamount} Matic
+						{/*Receiver Disputed Amount: {dispute.disputedamount} Matic*/}
+						Receiver Disputed: {dispute.amountDisputedAssignee} %
 					</p>
 					{dispute.assignorDetails !== "" ? (
 						<p className="text-black text-sm">

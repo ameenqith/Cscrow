@@ -9,11 +9,13 @@ import { EscrowContext } from "../Context/EscrowContext";
 import axios from "axios";
 import Head from "next/head";
 import Faq from "../components/faq";
+import {toast} from "react-toastify";
 const coinmarketcap = process.env.NEXT_PUBLIC_COINMARKET_API;
 
-const currencyObj = {
+export const currencyObj = {
 	usdt: {
 		token_address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+		// token_address: "0x2F7b97837F2D14bA2eD3a4B2282e259126A9b848", mumbai
 		token: true,
 	},
 	matic: {
@@ -28,6 +30,7 @@ const currencyObj = {
 	},
 	usdc: {
 		token_address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+		// token_address: "0x9999f7Fea5938fD3b1E26A12c3f2fb024e194f97", mumai
 		token: true,
 	},
 };
@@ -217,7 +220,7 @@ const Home = () => {
 	};
 
 	const handleAmountChange = (e) => {
-		setAmount(e.target.value);
+		setAmount(e.target.value.toFixed(6));
 		setAmountError(""); // Clear the error message
 	};
 
@@ -255,9 +258,19 @@ const Home = () => {
 					}
 				)
 				.then((response) => {
-					setAmount(Number(response.data[selectedCurrency]) * Number(amountUSD));
+					setAmount((Number(response.data[selectedCurrency]) * Number(amountUSD)).toFixed(6));
 				});
 		} catch (error) {
+			toast.error(error, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 			console.log(error);
 		}
 	};

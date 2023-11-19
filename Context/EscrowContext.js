@@ -11,6 +11,7 @@ import {
 } from "./constants";
 import {useWeb3Modal} from "@web3modal/react";
 import {useAccount} from "wagmi";
+import {toast} from "react-toastify";
 
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 const projectSecretKey = process.env.NEXT_PUBLIC_PROJECT_SECRET_KEY;
@@ -190,6 +191,7 @@ export const EscrowProvider = ({ children }) => {
 
 	const isUSDToken = (tokenAddress) => {
 		return ["0xc2132D05D31c914a87C6611C10748AEb04B58e8F", '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'].includes(tokenAddress);
+		// return ["0x2F7b97837F2D14bA2eD3a4B2282e259126A9b848", '0x9999f7Fea5938fD3b1E26A12c3f2fb024e194f97'].includes(tokenAddress); mumbai test
 	}
 
 	// end Rewards POOL calls
@@ -224,8 +226,17 @@ export const EscrowProvider = ({ children }) => {
 			);
 			const res = await trx.wait();
 		} catch (error) {
-			console.log(error);
-			return error;
+				toast.error(error?.message ?? 'Something wrong', {
+					position: "top-right",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: "colored",
+				});
+			// return error;
 		}
 	};
 
@@ -235,7 +246,16 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.withdrawContract(id);
 			await trx.wait();
 		} catch (error) {
-			return error;
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -245,8 +265,16 @@ export const EscrowProvider = ({ children }) => {
 			const ownerAddr =  await contract.owner();
 			return ownerAddr.toLowerCase();
 		} catch (error) {
-			return null
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -256,7 +284,16 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.notAcceptContract(id);
 			await trx.wait();
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -266,7 +303,16 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.acceptContract(id);
 			await trx.wait();
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -276,7 +322,16 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.approveContract(id);
 			await trx.wait();
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -286,7 +341,16 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.completeContract(id);
 			await trx.wait();
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -321,7 +385,7 @@ export const EscrowProvider = ({ children }) => {
 							assignee: escrow.assignee.toLowerCase(),
 							details: escrow.details,
 							status: escrow.status,
-							amount: Number(ethers.utils.formatEther(escrow.amount)),
+							amount: isUSDToken(escrow.tokenAddress) ? ethers.utils.formatUnits(escrow.amount, 6) : Number(ethers.utils.formatEther(escrow.amount)),
 							token: escrow.token,
 							tokenAddress: escrow.tokenAddress,
 						});
@@ -330,7 +394,16 @@ export const EscrowProvider = ({ children }) => {
 				return data;
 			}
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -351,7 +424,7 @@ export const EscrowProvider = ({ children }) => {
 							assignee: escrow.assignee.toLowerCase(),
 							details: escrow.details,
 							status: escrow.status,
-							amount: Number(ethers.utils.formatEther(escrow.amount)),
+							amount: isUSDToken(escrow.tokenAddress) ? ethers.utils.formatUnits(escrow.amount, 6) : Number(ethers.utils.formatEther(escrow.amount)),
 							token: escrow.token,
 							tokenAddress: escrow.tokenAddress,
 						});
@@ -360,7 +433,16 @@ export const EscrowProvider = ({ children }) => {
 				return data;
 			}
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -369,13 +451,22 @@ export const EscrowProvider = ({ children }) => {
 			if (currentAccount) {
 				const contract = await connectingWithSmartContract();
 				const escrow = await contract.escrows(id);
-				const amount = (Number(escrow.amount) * Number(percentage)) / 100;
-				const bigNum = (isUSDToken(escrow.token ? escrow.tokenAddress : '') ? ethers.utils.parseUnits(amount.toString(), 6): ethers.utils.parseEther(amount.toString()))
-				const trx = await contract.createDisputeLevel1(id, bigNum, details);
+				// const amount = (Number(escrow.amount) * Number(percentage)) / 100;
+				// const bigNum = (isUSDToken(escrow.token ? escrow.tokenAddress : '') ? ethers.utils.parseUnits(amount.toString(), 6): ethers.utils.parseEther(amount.toString()))
+				const trx = await contract.createDisputeLevel1(id, Number(percentage), details);
 				await trx.wait();
 			}
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -384,10 +475,19 @@ export const EscrowProvider = ({ children }) => {
 			if (currentAccount) {
 				const contract = await connectingWithSmartContract();
 				const trx = await contract.acceptDispute(Number(id));
-				// await trx.wait();
+				await trx.wait();
 			}
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -414,6 +514,8 @@ export const EscrowProvider = ({ children }) => {
 						assignor: dispute.assignor.toLowerCase(),
 						assignee: dispute.assignee.toLowerCase(),
 						disputedamount: Number(ethers.utils.formatEther(dispute.amount ?? 0)),
+						amountDisputedAssignor: Number(dispute.amountDisputedAssignor ?? 0),
+						amountDisputedAssignee: Number(dispute.amountDisputedAssignee ?? 0),
 						assignorDetails: dispute.assignorDetails,
 						assigneeDetails: dispute.assigneeDetails,
 						validatorId: Number(dispute.validatorId),
@@ -427,7 +529,16 @@ export const EscrowProvider = ({ children }) => {
 			}
 			return data;
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -435,11 +546,20 @@ export const EscrowProvider = ({ children }) => {
 		try {
 			const contract = await connectingWithSmartContract();
 			let ipfsImages = await uploadImages(imagesPath);
-			const bigNum = (isUSDToken(tokenAddress) ? ethers.utils.parseUnits(amount.toString(), 6): ethers.utils.parseEther(amount.toString()))
-			const trx = await contract.createDisputeLevel2(id, bigNum, details, ipfsImages);
+			// const bigNum = (isUSDToken(tokenAddress) ? ethers.utils.parseUnits(amount.toString(), 6): ethers.utils.parseEther(amount.toString()))
+			const trx = await contract.createDisputeLevel2(id, Number(amount), details, ipfsImages);
 			await trx.wait();
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -453,7 +573,16 @@ export const EscrowProvider = ({ children }) => {
 			}
 			return ipfsImages;
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -461,16 +590,25 @@ export const EscrowProvider = ({ children }) => {
 		try {
 			const contract = await connectingWithSmartContract();
 			let ipfsImages = await uploadImages(imagesPath);
-			const bigNum = (isUSDToken(tokenAddress) ? ethers.utils.parseUnits(amount.toString(), 6): ethers.utils.parseEther(amount.toString()))
+			// const bigNum = (isUSDToken(tokenAddress) ? ethers.utils.parseUnits(amount.toString(), 6): ethers.utils.parseEther(amount.toString()))
 			const trx = await contract.addProofsForDisputeLevel2(
 				id,
-				bigNum,
+				Number(amount),
 				details,
 				ipfsImages
 			);
 			await trx.wait();
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -481,9 +619,10 @@ export const EscrowProvider = ({ children }) => {
 			let data = [];
 			for (let i = 0; i < totalValidators; i++) {
 				const validator = await contract.validators(i);
-				const escrow = await contract.escrows(i);
 				const dispute = await contract.disputes(validator.disputeId);
+				const escrow = await contract.escrows(dispute.escrowId);
 				const proofs = await contract.getProofs(validator.disputeId);
+				if(escrow.status >= 5 && escrow.status < 7) {
 				data.push({
 					validatorId: Number(i),
 					disputeId: Number(validator.disputeId),
@@ -501,13 +640,23 @@ export const EscrowProvider = ({ children }) => {
 					sameAccount: dispute.assignee.toLowerCase() === dispute.assignor.toLowerCase(),
 					assignorAddress: escrow.assignee,
 					assigneeAddress: escrow.assignor,
-					assigneeAmount: Number(ethers.utils.formatEther(dispute.amountDisputedAssignee ?? 0)),
-					assignorAmount: Number(ethers.utils.formatEther(dispute.amountDisputedAssignor ?? 0)),
+					assigneeAmount: Number(dispute.amountDisputedAssignee ?? 0),
+					assignorAmount: Number(dispute.amountDisputedAssignor ?? 0),
 				});
+				}
 			}
 			return data;
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -523,7 +672,16 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.resolveDispute(id);
 			await trx.wait();
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -533,7 +691,16 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.validate(id, voteForAssignor);
 			await trx.wait();
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 
@@ -543,7 +710,16 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.notAcceptContract(id);
 			await trx.wait();
 		} catch (error) {
-			console.log(error);
+			toast.error(error?.message ?? 'Something wrong', {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "colored",
+			});
 		}
 	};
 	return (

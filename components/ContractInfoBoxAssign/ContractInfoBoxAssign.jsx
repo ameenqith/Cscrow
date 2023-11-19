@@ -11,16 +11,25 @@ import SliderPopup from "../PopUp/SliderPopup";
 export const ContractInfoBoxAssign = ({contract, onRefresh, owner = null, currentAccount}) => {
     const startDate = new Date(contract.validationCreateTime * 1000);
     const endTime = new Date(startDate);
+    const endDeathMatchTime = new Date(startDate);
     const {runResolveDispute, vote } = useContext(EscrowContext);
     const [showPopUp, setShowPopUp] = useState([false, "assignee"]);
     const [isLoadingContracts, setIsLoadingContracts] = useState(false);
     endTime.setHours(endTime.getHours() + 24);
-    // endTime.setSeconds(endTime.getSeconds() + 5);
+    endDeathMatchTime.setHours(endDeathMatchTime.getHours() + 36);
+    // endTime.setMinutes(endTime.getMinutes() + 19);
+    // endDeathMatchTime.setMinutes(endDeathMatchTime.getMinutes() + 20);
+
     const targetTimestamp = startDate.toISOString();
     localStorage.setItem("targetTimestamp", targetTimestamp);
     const calculateRemainingTime = (targetTimestamp) => {
         const currentTime = new Date();
-        const remainingTime = endTime - currentTime;
+        let remainingTime;
+        if((endTime - currentTime) <= 1000 && contract.votesForAssignor === contract.votesForAssignee){
+            remainingTime = endDeathMatchTime - currentTime;
+        } else {
+            remainingTime = endTime - currentTime;
+        }
         const hours = Math.floor(remainingTime / 3600000);
         const minutes = Math.floor((remainingTime % 3600000) / 60000);
         const seconds = Math.floor((remainingTime % 60000) / 1000);
@@ -49,8 +58,7 @@ export const ContractInfoBoxAssign = ({contract, onRefresh, owner = null, curren
                     updatedRemainingTime.minutes <= 0 &&
                     updatedRemainingTime.seconds <= 0
                 ) {
-                    clearInterval(interval); // Clear the interval once the countdown is complete
-                    // runResolveDispute(contract.disputeId);
+                        clearInterval(interval); // Clear the interval once the countdown is complete
                 }
             }, 1000);
 
@@ -143,10 +151,17 @@ export const ContractInfoBoxAssign = ({contract, onRefresh, owner = null, curren
 							</span>
                         )}
                     </p>
-                    {/* <p className="text-black text-sm capitalize">
-						Timer : {getMonth} {getDate},{getYear} {ctime}
-					</p> */}
-                    {remainingTime.hours > 0 ||
+                    <br/>
+                    <br/>
+                    { endTime - new Date() <= 0 && contract.votesForAssignor === contract.votesForAssignee &&
+                    (remainingTime.hours > 0 ||
+                    remainingTime.minutes > 0 ||
+                    remainingTime.seconds > 0)
+                        ? (
+                        <p className="text-black text-sm capitalize text-center">A tiebreaker vote happening to determine the winner.</p>
+                    ) : ''
+                    }
+                    { remainingTime.hours > 0 ||
                     remainingTime.minutes > 0 ||
                     remainingTime.seconds > 0 ? (
                         <div className=" flex justify-center items-center  text-black text-sm capitalize pt-5">
@@ -212,12 +227,12 @@ export const ContractInfoBoxAssign = ({contract, onRefresh, owner = null, curren
                                 ) : null}
                     </>
                 )}
-                {/*// &&*/}
-                {/*// remainingTime.hours <= 0 &&*/}
-                {/*// remainingTime.minutes <= 0 &&*/}
-                {/*// remainingTime.seconds <= 0*/}
                 {
-                    owner === currentAccount
+                    (contract.assigneeAddress.toLowerCase() === currentAccount || contract.assignorAddress.toLowerCase()  === currentAccount)
+                    &&
+                    remainingTime.hours <= 0 &&
+                    remainingTime.minutes <= 0 &&
+                    remainingTime.seconds <= 0
                         ? (
                         <div className="flex justify-around my-5">
                             <Button

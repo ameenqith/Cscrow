@@ -13,7 +13,8 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { polygon, sepolia } from "wagmi/chains";
 const chains = [polygon, sepolia];
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
 const wagmiConfig = createConfig({
 	autoConnect: true,
@@ -33,6 +34,18 @@ const MyApp = ({ Component, pageProps }) => (
 			</EscrowProvider>
 		</WagmiConfig>
 		<Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+		<ToastContainer
+			position="top-right"
+			autoClose={5000}
+			hideProgressBar={false}
+			newestOnTop={false}
+			closeOnClick
+			rtl={false}
+			pauseOnFocusLoss
+			draggable
+			pauseOnHover
+			theme="colored"
+		/>
 	</>
 );
 

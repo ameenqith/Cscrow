@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { EscrowContext } from "../../Context/EscrowContext";
 
-const Popup = ({ setShowPopUp, escrowId }) => {
+const Popup = ({ setShowPopUp, escrowId, setIsLoadingContracts }) => {
   const [reason, setReason] = useState("");
   const [currency, setCurrency] = useState("");
   const [justification, setJustfication] = useState("");
@@ -10,7 +10,7 @@ const Popup = ({ setShowPopUp, escrowId }) => {
   const [reasonError, setReasonError] = useState("");
   const [currencyError, setCurrencyError] = useState("");
   const [justificationError, setJustficationError] = useState("");
-  const [isLoadingContracts, setIsLoadingContracts] = useState(false);
+  const [isLoadingContracts2, setIsLoadingContracts2] = useState(false);
 
   const popupRef = useRef(null);
   const handleCurrencyChange = (e) => {
@@ -140,7 +140,7 @@ const Popup = ({ setShowPopUp, escrowId }) => {
             </div>
             <div className="flex gap-2">
               {
-                isLoadingContracts ? (
+                isLoadingContracts2 ? (
                   <div className="flex justify-center mt-4">
                     <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
                   </div>
@@ -151,11 +151,13 @@ const Popup = ({ setShowPopUp, escrowId }) => {
                         if (validateFieldLevel1()) {
                           // setShowPopUp(false);
                           setIsLoadingContracts(true);
+                          setIsLoadingContracts2(true);
 
                           createDispureLevel1(escrowId, currency, reason).finally(() => {
                             setIsLoadingContracts(false);
+                            setIsLoadingContracts2(false);
                             setShowPopUp(false)// Stop loading contracts
-                          });;
+                          });
                         }
                       }}
                       className="capitalize bg-theme-pruple text-center text-white px-4 py-2 rounded-md hover:bg-black focus:outline-none focus:ring-2 focus:bg-theme-pruple"
