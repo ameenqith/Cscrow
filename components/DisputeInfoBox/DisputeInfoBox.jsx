@@ -12,7 +12,7 @@ const DisputeInfoBox = ({dispute, onRefresh}) => {
 	const [isLoadingContracts, setIsLoadingContracts] = useState(false);
 	const currencyObjTokens = Object.keys(currencyObj).reduce((acc, key) => {
 		if (currencyObj[key].token) {
-			acc[currencyObj[key].token_address] = key.toUpperCase();
+			acc[currencyObj[key].token_address.toLowerCase()] = key.toUpperCase();
 		}
 		return acc;
 	}, {});
@@ -78,7 +78,7 @@ const DisputeInfoBox = ({dispute, onRefresh}) => {
 							Sender Details: {dispute.assignorDetails}
 						</p>
 					) : (
-						<p className="text-black text-sm">Assignor Details: Not Provided</p>
+						<p className="text-black text-sm">Receiver Details: Not Provided</p>
 					)}
 
 					{dispute.assigneeDetails !== "" ? (

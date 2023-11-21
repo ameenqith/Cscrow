@@ -388,7 +388,7 @@ export const EscrowProvider = ({ children }) => {
 							status: escrow.status,
 							amount: isUSDToken(escrow.tokenAddress) ? ethers.utils.formatUnits(escrow.amount, 6) : Number(ethers.utils.formatEther(escrow.amount)),
 							token: escrow.token,
-							tokenAddress: escrow.tokenAddress,
+							tokenAddress: escrow.tokenAddress.toLowerCase(),
 						});
 					}
 				}
@@ -511,7 +511,7 @@ export const EscrowProvider = ({ children }) => {
 						escrowStatus: Number(escrow.status),
 						escrowTitle: escrow.title,
 						escrowDescription: escrow.details,
-						amount: Number(ethers.utils.formatEther(escrow.amount)),
+						amount: isUSDToken(escrow.tokenAddress) ? ethers.utils.formatUnits(escrow.amount, 6) : Number(ethers.utils.formatEther(escrow.amount)),
 						assignor: dispute.assignor.toLowerCase(),
 						assignee: dispute.assignee.toLowerCase(),
 						disputedamount: Number(ethers.utils.formatEther(dispute.amount ?? 0)),
@@ -523,7 +523,7 @@ export const EscrowProvider = ({ children }) => {
 						status: dispute.disputeLevel,
 						assigneeCreatedDispute: dispute.assigneeCreatedDispute,
 						validationStarted: dispute.validationStarted,
-						tokenAddress: escrow.token ? escrow.tokenAddress: '',
+						tokenAddress: escrow.token ? escrow.tokenAddress.toLowerCase(): '',
 					};
 					data.push(disputeInfo);
 				}

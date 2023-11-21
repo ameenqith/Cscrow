@@ -12,7 +12,7 @@ export const ContractInfoBox = ({contract, onRefresh, isSender}) => {
 	const [showPopUp, setShowPopUp] = useState(false);
 	const currencyObjTokens = Object.keys(currencyObj).reduce((acc, key) => {
 		if (currencyObj[key].token) {
-			acc[currencyObj[key].token_address] = key.toUpperCase();
+			acc[currencyObj[key].token_address.toLowerCase()] = key.toUpperCase();
 		}
 		return acc;
 	}, {});
