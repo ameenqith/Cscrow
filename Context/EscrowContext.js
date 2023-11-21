@@ -427,7 +427,7 @@ export const EscrowProvider = ({ children }) => {
 							status: escrow.status,
 							amount: isUSDToken(escrow.tokenAddress) ? ethers.utils.formatUnits(escrow.amount, 6) : Number(ethers.utils.formatEther(escrow.amount)),
 							token: escrow.token,
-							tokenAddress: escrow.tokenAddress,
+							tokenAddress: escrow.tokenAddress.toLowerCase(),
 						});
 					}
 				}
@@ -524,6 +524,7 @@ export const EscrowProvider = ({ children }) => {
 						assigneeCreatedDispute: dispute.assigneeCreatedDispute,
 						validationStarted: dispute.validationStarted,
 						tokenAddress: escrow.token ? escrow.tokenAddress.toLowerCase(): '',
+						token: escrow.token,
 					};
 					data.push(disputeInfo);
 				}

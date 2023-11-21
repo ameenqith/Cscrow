@@ -24,10 +24,10 @@ export const currencyObj = {
 		token_address: "0x0000000000000000000000000000000000001010",
 		token: false,
 	},
-	weth: {
-		token_address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
-		token: true,
-	},
+	// weth: {
+	// 	token_address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+	// 	token: true,
+	// },
 	usdc: {
 		token_address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
 		// token_address: "0x9999f7Fea5938fD3b1E26A12c3f2fb024e194f97", mumai
