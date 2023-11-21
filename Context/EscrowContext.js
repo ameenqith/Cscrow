@@ -226,7 +226,7 @@ export const EscrowProvider = ({ children }) => {
 			);
 			const res = await trx.wait();
 		} catch (error) {
-				toast.error(error?.message ?? 'Something wrong', {
+				toast.error(error?.error?.message ?? 'Something wrong', {
 					position: "top-right",
 					autoClose: 5000,
 					hideProgressBar: false,
@@ -246,7 +246,7 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.withdrawContract(id);
 			await trx.wait();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -265,7 +265,7 @@ export const EscrowProvider = ({ children }) => {
 			const ownerAddr =  await contract.owner();
 			return ownerAddr.toLowerCase();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -284,7 +284,7 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.notAcceptContract(id);
 			await trx.wait();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -303,7 +303,7 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.acceptContract(id);
 			await trx.wait();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -322,7 +322,8 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.approveContract(id);
 			await trx.wait();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			console.log();
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -341,7 +342,7 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.completeContract(id);
 			await trx.wait();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -394,7 +395,7 @@ export const EscrowProvider = ({ children }) => {
 				return data;
 			}
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -433,7 +434,7 @@ export const EscrowProvider = ({ children }) => {
 				return data;
 			}
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -457,7 +458,7 @@ export const EscrowProvider = ({ children }) => {
 				await trx.wait();
 			}
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -478,7 +479,7 @@ export const EscrowProvider = ({ children }) => {
 				await trx.wait();
 			}
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -529,7 +530,7 @@ export const EscrowProvider = ({ children }) => {
 			}
 			return data;
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -550,7 +551,7 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.createDisputeLevel2(id, Number(amount), details, ipfsImages);
 			await trx.wait();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -573,7 +574,7 @@ export const EscrowProvider = ({ children }) => {
 			}
 			return ipfsImages;
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -599,7 +600,7 @@ export const EscrowProvider = ({ children }) => {
 			);
 			await trx.wait();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -647,7 +648,7 @@ export const EscrowProvider = ({ children }) => {
 			}
 			return data;
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -672,7 +673,7 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.resolveDispute(id);
 			await trx.wait();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -691,7 +692,7 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.validate(id, voteForAssignor);
 			await trx.wait();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -710,7 +711,7 @@ export const EscrowProvider = ({ children }) => {
 			const trx = await contract.notAcceptContract(id);
 			await trx.wait();
 		} catch (error) {
-			toast.error(error?.message ?? 'Something wrong', {
+			toast.error(error?.error?.message ?? 'Something wrong', {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
