@@ -16,7 +16,6 @@
     right: 2rem;
     transition: all .2s ease-in-out;
     cursor: pointer;
-    box-shadow:  var(--box-shadow);
 }
 .navbar_container_logo{
     height: 10vw; 

@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/custom.css";
 //INTRNAL IMPORT
 import { NavBar, Footer } from "../components/componentsindex";
 import { EscrowProvider } from "../Context/EscrowContext";

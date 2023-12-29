@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const Footer = () => {
 	return (
-		<div className="text-center">
+		<div className="terms-text text-center">
 			<Link href="/tos" className=" text-white">
 				Terms of service
 			</Link>

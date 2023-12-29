@@ -64,27 +64,26 @@ const NavBar = () => {
 				<div
 					className={Style.navbar_container}>
 				<header
-					className={`flex ${scrollDirection==="down" ? 'justify-center bg-[rgba(49,49,49,.582)] p-5 rounded-b-xl' : 'justify-between p-10'} items-center mx-w-7xl mx-auto fixed w-full z-50`}
+					className={`flex ${scrollDirection==="down" ? 'justify-center bg-[rgba(49,49,49,.582)]' : 'justify-between'} items-center`}
 				>
 					{ scrollDirection !== "down" ?
 						<>
-							<div className={"flex mt-10 cursor-pointer my-auto"}>
+							<div className={"flex cursor-pointer"}>
 								<Link href='/'>
 									{/*<div className="text-center">*/}
 										<div className="flex">
 											{/*<div className=" mr-[2px]">*/}
 																<Image
-																	className=""
+																	className="logo"
 																	src={images.logo}
 																	alt="logo"
-																	width={120}
-																	height={20}/>
+																	width={74}/>
 											{/*</div>*/}
 										</div>
 									{/*</div>*/}
 								</Link>
 							</div>
-							<div className={"flex mt-10 items-center cursor-pointer md:space-x-2 lg:space-x-5 text-white font-['Poppins']"}>
+							<div className={"flex items-center cursor-pointer text-white font-['Poppins']"}>
 								<Link href="/" legacyBehavior>
 									<h3
 										className={activePage==='/' ? 'activeMenuItem' : 'menuItem'}
@@ -130,9 +129,9 @@ const NavBar = () => {
 										Claim
 									</h3>
 								</Link>
-										<div className={Style.navbar_container_right_button}>
-											<Web3Button />
-										</div>
+							</div>
+							<div className={Style.navbar_container_right_button}>
+								<Web3Button />
 							</div>
 						</>
 						:
@@ -161,11 +160,10 @@ const NavBar = () => {
 						<div>
 							<Link href="/">
 								<Image
-									className=" object-cover object-right"
+									className=" object-cover object-right logo"
 									src={images.logo}
 									alt="logo"
-									width={100}
-									height={100}
+									width={74}
 								/>
 							</Link>
 						</div>
