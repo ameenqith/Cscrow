@@ -99,8 +99,10 @@ const Home = () => {
 				let offset = header.offsetHeight;
 
 				let elementPos = select(el).offsetTop;
+				console.log(elementPos);
+				console.log(offset);
 				window.scrollTo({
-					top: elementPos - offset,
+					top: elementPos + 100,
 					behavior: "smooth",
 				});
 			};
@@ -412,7 +414,7 @@ const Home = () => {
 				</div>
 			</div>
 
-			<div className="form-section-wrapper">
+			<div className="form-section-wrapper" id="form">
 				<div className="container">
 					<div className="wrapper">
 						<div className="form-block">
@@ -634,9 +636,9 @@ const Home = () => {
 			<div className="register-buttons">
 				<div className="container">
 					<div className="wrapper">
-						<Link href="#" className="btn">Register for pre-sale!</Link>
+						<Link href="https://docs.google.com/forms/d/e/1FAIpQLScCOl0M1K0uFX8tp0gLNlojPfkcgxKRtZLXowxr0bNiSBCWbA/viewform" className="btn" target="_blank">Register for pre-sale!</Link>
 						<Link href="#" className="btn">Join as an ambassador!</Link>
-						<Link href="#" className="btn">Enquire for your community!</Link>
+						<Link href="https://docs.google.com/forms/d/e/1FAIpQLSejJVI60B1409zR1cmmMx1lE7ZtBVAPwpnwsU_uYvbIatVOsQ/viewform" className="btn" target="_blank">Enquire for your community!</Link>
 					</div>
 				</div>
 			</div>

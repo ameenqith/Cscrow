@@ -12,7 +12,7 @@ function Faq() {
     const [problemSixth, setProblemSixth] = useState(false);
     const [problemSeventh, setProblemSeventh] = useState(false);
   return (
-    <div className='faq-section' id="earn">
+    <div className='faq-section'>
         <div className="container">
             {/* 1 question */}
             <div className={`q-title flex justify-between items-center cursor-pointer`} onClick={() => {setProblemFirst(!problemFirst)}}>
@@ -129,7 +129,7 @@ function Faq() {
 
             {/* 7 question */}
             <div
-                className={`q-title flex justify-between items-center cursor-pointer`}
+                className={`q-title flex justify-between items-center cursor-pointer`} id="earn"
                 onClick={() => {setProblemSeventh(!problemSeventh)}}
             >
                 <p className='queryText'>What is the Judge to Earn feature?</p>
