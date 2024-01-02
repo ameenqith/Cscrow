@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Button } from "../components/componentsindex";
 //INTERNAL IMPORT
 
@@ -10,6 +10,8 @@ import axios from "axios";
 import Head from "next/head";
 import Faq from "../components/faq";
 import {toast} from "react-toastify";
+import Link from "next/link";
+import JoinAmbasadorPopup from "../components/PopUp/JoinAmbasadorPopup";
 const coinmarketcap = process.env.NEXT_PUBLIC_COINMARKET_API;
 
 export const currencyObj = {
@@ -35,6 +37,7 @@ export const currencyObj = {
 	},
 };
 const Home = () => {
+
 	if (typeof window !== "undefined") {
 		(function () {
 			const select = (el, all = false) => {
@@ -98,8 +101,10 @@ const Home = () => {
 				let offset = header.offsetHeight;
 
 				let elementPos = select(el).offsetTop;
+				console.log(elementPos);
+				console.log(offset);
 				window.scrollTo({
-					top: elementPos - offset,
+					top: elementPos + 100,
 					behavior: "smooth",
 				});
 			};
@@ -213,6 +218,9 @@ const Home = () => {
 	const [detailsError, setDetailsError] = useState("");
 	const [currencyError, setCurrencyError] = useState("");
 	const [currencyDetail, setCurrencyDetail] = useState(null);
+	const Homevideo = useRef(null)
+	const Homevideobutton = useRef(null)
+	const [show, setShow] = useState(false);
 
 	const handleCollaboratorChange = (e) => {
 		setCollaborator(e.target.value);
@@ -321,225 +329,339 @@ const Home = () => {
 			setAmount("");
 		}
 	}, [amountUSD]);
+
+	console.log({Homevideo});
+
 	return (
 		<div className="bg-purple-bg relative z-[60]">
 			<Head>
 				<title>Make Scam Free Crypto Payments</title>{" "}
 			</Head>
-			<div
-				className="container m-auto grid grid-cols-3 gap-1 lg:gap-20 lg:grid-cols-3 md:grid-cols-3 px-3"
-				id="tab"
-			>
-				<a
-					className="scrollto opacity-75 capitalize bg-theme-pruple  text-center text-white px-4 py-2 rounded-md hover:bg-black focus:outline-none focus:ring-2 focus:bg-theme-pruple"
-					href="#form"
-				>
-					send
-				</a>
-				<a
-					className="scrollto opacity-75 capitalize bg-theme-pruple text-center text-white px-4 py-2 rounded-md hover:bg-black focus:outline-none focus:ring-2 focus:bg-theme-pruple"
-					href="#learn"
-				>
-					learn
-				</a>
-				<a
-					className="scrollto opacity-75 capitalize bg-theme-pruple  text-center text-white px-4 py-2 rounded-md hover:bg-black focus:outline-none focus:ring-2 focus:bg-theme-pruple"
-					href="#earn"
-				>
-					earn
-				</a>
-			</div>
-			<div className="flex justify-center px-2 w-200">
-				<p className="text-xl lg:text-6xl mb-5 mt-10 font-bold">
-					Make Scam Free Crypto Payments
-				</p>
-			</div>
-
-			<div className="flex justify-center px-10 w-50">
-				<p className="text-sm lg:text-xl mb-5 mt-2 italic text-justify">
-					Decentralized 'fiverr' that holds your crypto until service is
-					received to protect you from scams
-				</p>
-			</div>
-			<div className="px-4 py-5" id="form">
-				<div className="max-w-md bg-white mx-auto lg:p-4 bg-purple shadow-md rounded-md">
-					<div className="flex justify-end">
-						<Image
-							className="flex object-cover object-right h-5 w-20"
-							src={images.polygon}
-							alt="NFT images"
-							width={0}
-							height={0}
-						/>
-					</div>
-					<div className="mb-4 px-4 lg:px-0">
-						<label
-							htmlFor="title"
-							className="block text-lg font-medium text-black"
-						>
-							Title
-						</label>
-						<input
-							type="text"
-							id="title"
-							name="title"
-							value={title}
-							onChange={handleTitleChange}
-							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-							required
-						/>
-						<p className="text-red-500 text-xs mt-2">{titleError}</p>
-					</div>
-
-					<div className="mb-4 px-4 lg:px-0">
-						<label
-							htmlFor="collaborator"
-							className="block text-lg font-medium text-black"
-						>
-							Receiver
-						</label>
-						<input
-							type="text"
-							id="collaborator"
-							value={collaborator}
-							onChange={handleCollaboratorChange}
-							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-							required
-						/>
-						<p className="text-red-500 text-xs mt-2">{collaboratorError}</p>
-					</div>
-					<div className="mb-4 px-4 lg:px-0">
-						<label
-							htmlFor="details"
-							className="block text-lg font-medium text-black"
-						>
-							Token
-						</label>
-						<select
-							value={currency}
-							onChange={handleCurrencyChange}
-							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-							required
-						>
-							<option value="">select token</option>
-							{Object.keys(currencyObj).map((currencyKey) => (
-								<option
-									key={currencyKey}
-									value={currencyKey}
-									// className="uppercase"
-								>
-									{currencyKey.toUpperCase()}
-								</option>
-							))}
-						</select>
-						<p className="text-red-500 text-xs mt-2">{currencyError}</p>
-					</div>
-					<div className="flex mb-4 px-4 lg:px-0">
-						<div className="grow w-50 mr-2">
-							<label
-								htmlFor="amount"
-								className="block text-lg font-medium text-black mr-2"
-							>
-								Total in Tokens
-							</label>
-							<input
-								type="number"
-								id="amount"
-								value={amount}
-								onChange={handleAmountChange}
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								required
-							/>
-							<p className="text-red-500 text-xs mt-2">{amountError}</p>
-						</div>
-
-						<div className="grow">
-							<label
-								htmlFor="amountUSD"
-								className="block text-lg font-medium text-black"
-							>
-								Total in USD
-							</label>
-
-							<input
-								type="number"
-								id="amountUSD"
-								value={amountUSD}
-								onChange={handleAmountUSDChange}
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								required
-								// disabled={currency === "usdt"}
-							/>
-							<p className="text-red-500 text-xs mt-2">{amountUSDError}</p>
-						</div>
-					</div>
-
-					<div className="mb-4 px-4 lg:px-0">
-						<label
-							htmlFor="details"
-							className="block text-lg font-medium text-black"
-						>
-							Details
-						</label>
-						<textarea
-							type="text"
-							id="details"
-							value={details}
-							onChange={handleDetailsChange}
-							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-							required
-						/>
-						<p className="text-red-500 text-xs mt-2">{detailsError}</p>
-					</div>
+			
+			<div className="main-buttons" id="tab">
+				<div className="container">
 					<div className="flex justify-center">
-						{isLoading ? (
-							<div className="flex justify-center mt-4">
-								<div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
-							</div>
-						) : (
-							<Button
-								btnName="Create Contract"
-								handleClick={() => {
-									if (validateFields()) {
-										setIsLoading(true); // Start loading
-										createContract(
-											title,
-											collaborator,
-											String(amount),
-											details,
-											currencyDetail.token,
-											currencyDetail.token_address
-										)
-											.finally(() => {
-											setIsLoading(false); // Stop loading
-											setTitle("");
-											setCollaborator("");
-											setCurrency("");
-											setdetails("");
-											setAmount("");
-											setAmountUSD("");
-										});
-									}
-								}}
-							/>
-						)}
-						<p className="text-red-500 text-xs mt-2">{error}</p>
-					</div>
-
-					<div className="flex justify-end">
-						<p className="text-black italic  text-xs">2% service fee</p>
+						<a href="#form" className="scrollto text-center text-white">send</a>
+						<a href="#learn" className="scrollto text-center text-white">learn</a>
+						<a href="#earn" className="scrollto text-center text-white">earn</a>
 					</div>
 				</div>
 			</div>
 
-			<div className="flex justify-center" id="learn">
-				<Image
-					className="flex w-96 object-cover object-right l:w-auto l:h-auto lg:h-3/3 lg:w-3/4"
-					src={images.sketch}
-					alt="NFT images"
-					width={{}}
-					height={{}}
-				/>
+			<div className="video-section">
+				<div className="container">
+					<div className="section-title text-center">
+						<h2>Send & Receive Scam Free Crypto Payments!</h2>
+						<p>Decentralized 'fiverr' that holds your crypto until service is received to protect you from scams</p>
+					</div>
+					<div className="video-block">
+						 <button ref={Homevideobutton}  onClick={(e)=>
+						    {
+									Homevideobutton.current.style.display = "none";
+									Homevideo?.current.play()
+
+						 	}} type="button" className="play-button">
+							<Image
+								src={images.playButton}
+								alt="Play Button"
+							/>
+						</button> 
+						
+
+						<video ref={Homevideo} class="lazy" type="video/mp4" loop>
+  							<source src='/videos/Crypto_Transactions_Video.mp4'  />
+						</video>
+					</div>
+				</div>
+			</div>
+
+			<div className="boxes-with-icon-text">
+				<div className="container">
+					<div className="wrapper flex gap-[55px] justify-between">
+						<div className="box">
+							<div className="icon-block">
+								<Image
+									src={images.transactions}
+									alt="Transactions Icon"
+								/>
+							</div>
+							<div className="text-block">
+								<h3>300+</h3>
+								<h6>Transactions</h6>
+							</div>
+						</div>
+						<div className="box">
+							<div className="icon-block">
+								<Image
+									src={images.ambassadorsWaitlist}
+									alt="Ambassadors Waitlist Icon"
+								/>
+							</div>
+							<div className="text-block">
+								<h3>200+</h3>
+								<h6>Ambassadors in waitlist</h6>
+							</div>
+						</div>
+						<div className="box">
+							<div className="icon-block">
+								<Image
+									src={images.projectsWaitlist}
+									alt="Projects Waitlist Icon"
+								/>
+							</div>
+							<div className="text-block">
+								<h3>20+</h3>
+								<h6>DAO & Projects in waitlist</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div className="form-section-wrapper" id="form">
+				<div className="container">
+					<div className="wrapper">
+						<div className="form-block">
+							<div className="white-box">
+								<div className="flex justify-end">
+									<Image
+										className="flex object-cover object-right h-5 w-20"
+										src={images.polygon}
+										alt="NFT images"
+										width={0}
+										height={0}
+									/>
+								</div>
+								<div className="form-field-block">
+									<label
+										htmlFor="title"
+										className="block text-lg font-medium text-black"
+									>
+										Title
+									</label>
+									<input
+										type="text"
+										id="title"
+										name="title"
+										value={title}
+										onChange={handleTitleChange}
+										required
+									/>
+									<p className="text-red-500 text-xs mt-2">{titleError}</p>
+								</div>
+								<div className="form-field-block">
+									<label
+										htmlFor="collaborator"
+										className="block text-lg font-medium text-black"
+									>
+										Receiver
+									</label>
+									<input
+										type="text"
+										id="collaborator"
+										value={collaborator}
+										onChange={handleCollaboratorChange}
+										required
+									/>
+									<p className="text-red-500 text-xs mt-2">{collaboratorError}</p>
+								</div>
+								<div className="form-field-block">
+									<label
+										htmlFor="details"
+										className="block text-lg font-medium text-black"
+									>
+										Token
+									</label>
+									<select
+										value={currency}
+										onChange={handleCurrencyChange}
+										required
+									>
+										<option value="">select token</option>
+										{Object.keys(currencyObj).map((currencyKey) => (
+											<option
+												key={currencyKey}
+												value={currencyKey}
+												// className="uppercase"
+											>
+												{currencyKey.toUpperCase()}
+											</option>
+										))}
+									</select>
+									<p className="text-red-500 text-xs mt-2">{currencyError}</p>
+								</div>
+								<div className="form-field-block">
+									<div className="field-block">
+										<label
+											htmlFor="amount"
+											className="block text-lg font-medium text-black mr-2"
+										>
+											Total in Tokens
+										</label>
+										<input
+											type="number"
+											id="amount"
+											value={amount}
+											onChange={handleAmountChange}
+											required
+										/>
+										<p className="text-red-500 text-xs mt-2">{amountError}</p>
+									</div>
+									<div className="field-block">
+										<label
+											htmlFor="amountUSD"
+											className="block text-lg font-medium text-black"
+										>
+											Total in USD
+										</label>
+										<input
+											type="number"
+											id="amountUSD"
+											value={amountUSD}
+											onChange={handleAmountUSDChange}
+											required
+										/>
+										<p className="text-red-500 text-xs mt-2">{amountUSDError}</p>
+									</div>
+								</div>
+								<div className="form-field-block">
+									<label
+										htmlFor="details"
+										className="block text-lg font-medium text-black"
+									>
+										Details
+									</label>
+									<textarea
+										type="text"
+										id="details"
+										value={details}
+										onChange={handleDetailsChange}
+										required
+									/>
+									<p className="text-red-500 text-xs mt-2">{detailsError}</p>
+								</div>
+								<div className="form-submit-block flex justify-center">
+									{isLoading ? (
+										<div className="flex justify-center mt-4">
+											<div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+										</div>
+									) : (
+										<Button
+											btnName="Create Contract"
+											handleClick={() => {
+												if (validateFields()) {
+													setIsLoading(true); // Start loading
+													createContract(
+														title,
+														collaborator,
+														String(amount),
+														details,
+														currencyDetail.token,
+														currencyDetail.token_address
+													)
+														.finally(() => {
+														setIsLoading(false); // Stop loading
+														setTitle("");
+														setCollaborator("");
+														setCurrency("");
+														setdetails("");
+														setAmount("");
+														setAmountUSD("");
+													});
+												}
+											}}
+										/>
+									)}
+									<p className="text-red-500 text-xs mt-2">{error}</p>
+								</div>
+								<div className="service-text flex justify-end">
+									<p>2% service fee</p>
+								</div>
+							</div>
+						</div>
+						<div className="sponserd-block">
+							<Image
+								className="for-desktop"
+								src={images.gasSponserdDesktop}
+								alt="Gas Sponserd Image"
+							/>
+							<div className="sponserd-text">
+								<h2>gas <span>sponsored</span></h2>
+								<p>Enjoy limited-time, gas-sponsored transactions and experience safety in a scam-filled space!</p>
+								<Link href="#" className="btn">
+									<Image
+										src={images.walletWhite}
+										alt="Wallet Icon"
+									/>Get started
+								</Link>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div className="comming-soon-section">
+				<div className="container">
+					<div className="commin-soon-box">
+						<h2>Coming soon</h2>
+						<ul>
+							<li>
+								<span className="text">Telegram</span>
+								<span className="icon">
+									<Image
+										src={images.TelegramLogo}
+										alt="Telegram Icon"
+									/>
+								</span>
+							</li>
+							<li>
+								<span className="text">Discord</span>
+								<span className="icon">
+									<Image
+										src={images.DiscordLogo}
+										alt="Discord Icon"
+									/>
+								</span>
+							</li>
+							<li>
+								<span className="text">Web Integrations</span>
+								<span className="icon">
+									<Image
+										src={images.WebIntegrationsLogo}
+										alt="WebIntegrations Icon"
+									/>
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			<div className="register-buttons">
+				<div className="container">
+					<div className="wrapper">
+						<Link href="https://docs.google.com/forms/d/e/1FAIpQLScCOl0M1K0uFX8tp0gLNlojPfkcgxKRtZLXowxr0bNiSBCWbA/viewform" className="btn" target="_blank">Register for pre-sale!</Link>
+						{show && <JoinAmbasadorPopup show={show} setShow={setShow}/>}
+						<button type="button" onClick={() => setShow(true)} className="btn">Join as an ambassador!</button>
+						<Link href="https://docs.google.com/forms/d/e/1FAIpQLSejJVI60B1409zR1cmmMx1lE7ZtBVAPwpnwsU_uYvbIatVOsQ/viewform" className="btn" target="_blank">Enquire for your community!</Link>
+					</div>
+				</div>
+			</div>
+
+			<div className="how-to-use" id="learn">
+				<div className="container">
+					<div className="section-title text-center">
+						<h2>How to use</h2>
+					</div>
+					<div className="flex justify-center">
+						<Image
+							src={images.sketch}
+							alt="NFT images"
+							width={{}}
+							height={{}}
+						/>
+					</div>
+				</div>
 			</div>
 
 			<Faq />
