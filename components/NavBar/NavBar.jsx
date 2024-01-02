@@ -131,6 +131,18 @@ const NavBar = () => {
 								</Link>
 							</div>
 							<div className={Style.navbar_container_right_button}>
+								<ul>
+									<li>
+										<a href="https://twitter.com/cscrowdotcom" target='_blank'>
+											<BsTwitter size={22}/>
+										</a>
+									</li>
+									<li>
+										<a href="https://discord.gg/cscrow"  target='_blank'>
+											<FaDiscord size={22}/>
+										</a>
+									</li>
+								</ul>
 								<Web3Button />
 							</div>
 						</>
@@ -170,7 +182,19 @@ const NavBar = () => {
 					</div>
 
 					<div></div>
-					<div>
+					<div className="mobile-btn">
+						<ul>
+							<li>
+								<a href="https://twitter.com/cscrowdotcom" target='_blank'>
+									<BsTwitter size={22}/>
+								</a>
+							</li>
+							<li>
+								<a href="https://discord.gg/cscrow"  target='_blank'>
+									<FaDiscord size={22}/>
+								</a>
+							</li>
+						</ul>
 						<CgMenuRight
 							className={Style.menuIcon}
 							onClick={() => openSideBar()}

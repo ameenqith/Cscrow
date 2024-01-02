@@ -11,14 +11,6 @@ export const Footer = () => {
 					<Link href="/tos" className=" text-white">
 						Terms of service
 					</Link>
-					<ul>
-						<li>
-							<a href="https://twitter.com/cscrowdotcom" target='_blank'><BsTwitter size={24}/></a>
-						</li>
-						<li>
-							<a href="https://discord.gg/cscrow" target='_blank'><FaDiscord size={24}/></a>
-						</li>
-					</ul>
 				</div>
 			</div>
 		</div>

@@ -352,6 +352,7 @@ const Home = () => {
 				<div className="container">
 					<div className="section-title text-center">
 						<h2>Send & Receive Scam Free Crypto Payments!</h2>
+						<p>Decentralized 'fiverr' that holds your crypto until service is received to protect you from scams</p>
 					</div>
 					<div className="video-block">
 						 <button ref={Homevideobutton}  onClick={(e)=>

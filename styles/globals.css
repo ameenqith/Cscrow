@@ -145,3 +145,13 @@ a {
     padding-left: 20px;
   }
 }
+.mobile-btn ul {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-right: 20px;
+}
+.mobile-btn {
+  display: flex;
+  align-items: center;
+}

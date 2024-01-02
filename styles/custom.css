@@ -420,7 +420,7 @@
 .terms-text .wrapper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
 .terms-text a {
     color: #fff;
@@ -479,6 +479,11 @@
 }
 .ambasadorPopup .popupBox p a {
     text-decoration: underline;
+}
+.video-section .section-title p {
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 8px;
 }
 @media only screen and (max-width: 1439px) {
     .how-to-use .section-title h2 {
@@ -685,6 +690,11 @@
     .faq-section {
         padding: 40px 0 60px 0;
     }
+    .video-section .section-title p {
+        font-size: 14px;
+        line-height: 20px;
+        margin-top: 5px;
+    }
 }
 @media only screen and (max-width: 991px) {
     .register-buttons .wrapper {
@@ -790,6 +800,11 @@
     .boxes-with-icon-text .box .text-block h6 {
         font-size: 14px;
         line-height: 20px;
+    }
+    .video-section .section-title p {
+        font-size: 12px;
+        line-height: 18px;
+        margin-top: 5px;
     }
 }
 @media only screen and (max-width: 767px) {

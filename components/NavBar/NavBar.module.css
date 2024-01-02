@@ -134,6 +134,14 @@
 .navbar_container_right_button{
     position: relative;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.navbar_container_right_button ul {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-right: 20px;
 }
 .navbar button[data-testid="component-big-button"] {
     background-color: transparent;
@@ -205,6 +213,16 @@
     .navbar{
         padding-left: calc((100% - 690px) / 2);
         padding-right: calc((100% - 690px) / 2);
+    }
+    .mobile-btn ul {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-right: 20px;
+    }
+    .mobile-btn {
+        display: flex;
+        align-items: center;
     }
 }
 @media screen and (min-device-width: 220px) and (max-device-width: 768px) {
