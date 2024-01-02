@@ -640,11 +640,11 @@ const Home = () => {
 				<div className="container">
 					<div className="wrapper">
 						<Link href="https://docs.google.com/forms/d/e/1FAIpQLScCOl0M1K0uFX8tp0gLNlojPfkcgxKRtZLXowxr0bNiSBCWbA/viewform" className="btn" target="_blank">Register for pre-sale!</Link>
+						{show && <JoinAmbasadorPopup show={show} setShow={setShow}/>}
 						<button type="button" onClick={() => setShow(true)} className="btn">Join as an ambassador!</button>
 						<Link href="https://docs.google.com/forms/d/e/1FAIpQLSejJVI60B1409zR1cmmMx1lE7ZtBVAPwpnwsU_uYvbIatVOsQ/viewform" className="btn" target="_blank">Enquire for your community!</Link>
 					</div>
 				</div>
-				<JoinAmbasadorPopup/>
 			</div>
 
 			<div className="how-to-use" id="learn">

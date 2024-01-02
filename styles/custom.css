@@ -268,6 +268,7 @@
 /* Comming Soon Section */
 .comming-soon-section {
     padding: 60px 0;
+    background-color: #fff;
 }
 .comming-soon-section .commin-soon-box {
     border: 1px solid #DDDDDD;
@@ -310,6 +311,9 @@
     line-height: normal;
 }
 /* Register Buttons */
+.register-buttons {
+    background-color: #fff;
+}
 .register-buttons .wrapper {
     display: flex;
     column-gap: 50px;
@@ -339,6 +343,7 @@
 /* How to use section */
 .how-to-use {
     padding-top: 60px;
+    background-color: #fff;
 }
 .how-to-use .section-title h2 {
     color: #151515;
@@ -407,19 +412,28 @@
 }
 .faq-section {
     padding: 60px 0 75px 0;
+    background-color: #fff;
 }
 .faq-section .q-title {
     margin-top: 15px;
 }
+.terms-text .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .terms-text a {
-    color: #171A1F;
+    color: #fff;
     font-size: 16px;
     font-weight: 400;
     line-height: 16px; /* 100% */
     text-decoration-line: underline;
 }
 .terms-text {
-    padding-bottom: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-top: 1px solid rgb(121, 73, 232, 0.3);
+    background-color: var(--bg-color);
 }
 .ambasadorPopup {
     position: fixed;
@@ -457,6 +471,11 @@
     right: 15px;
     padding: 0;
     cursor: pointer;
+}
+.terms-text .wrapper ul {
+    display: flex;
+    gap: 20px;
+    align-items: center;
 }
 @media only screen and (max-width: 1439px) {
     .how-to-use .section-title h2 {
@@ -656,19 +675,6 @@
     }
     .faq-section .q-title {
         margin-top: 15px;
-    }
-    .terms-text a {
-        color: #171A1F;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 16px;
-        text-decoration-line: underline;
-    }
-    .terms-text {
-        padding-bottom: 50px;
-    }
-    .terms-text {
-        padding-bottom: 30px;
     }
     .how-to-use {
         padding-top: 50px;

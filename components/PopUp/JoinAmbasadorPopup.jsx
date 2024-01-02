@@ -2,12 +2,14 @@ import React from 'react';
 import images from "../../img";
 import Image from "next/image";
 
-export default function JoinAmbasadorPopup() {
+export default function JoinAmbasadorPopup({show,setShow}) {
+
+
   return (
     <>
         <div className='ambasadorPopup'>
             <div className='popupBox'>
-                <button type='button'>
+                <button type='button' onClick={() => setShow(false)}>
                 <Image
                     src={images.cross}
                     alt="NFT images"
