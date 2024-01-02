@@ -359,13 +359,15 @@
 }
 .faq-section .q-content {
     border-radius: 6px;
-    background: #FAFAFA;
-    box-shadow: 0px 0px 1px 0px rgba(23, 26, 31, 0.07), 0px 0px 2px 0px rgba(23, 26, 31, 0.12);
     width: 100%;
-    margin: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     padding: 20px 25px 10px 15px;
+}
+.faq-section .q-content {
+    border-bottom: 0.5px solid #9095A0;
 }
 .faq-section .q-title .queryText {
     color: #171A1F;
@@ -396,6 +398,9 @@
 }
 .faq-section .q-title {
     margin-top: 15px;
+}
+.faq-section .q-title,
+.faq-section .q-content {
     max-width: 824px;
     margin-left: auto;
     margin-right: auto;
@@ -415,6 +420,43 @@
 }
 .terms-text {
     padding-bottom: 50px;
+}
+.ambasadorPopup {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.ambasadorPopup .popupBox {
+    border-radius: 25px;
+    border: 1px solid #7949E8;
+    background-color: #2C215C;
+    padding: 50px 30px 30px 30px;
+    max-width: 420px;
+    text-align: center;
+    position: relative;
+}
+.ambasadorPopup .popupBox p {
+    font-size: 22px;
+    line-height: 30px;
+    color: #fff;
+}
+.ambasadorPopup .popupBox button {
+    width: 28px;
+    height: 28px;
+    margin-left: auto;
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 0;
+    cursor: pointer;
 }
 @media only screen and (max-width: 1439px) {
     .how-to-use .section-title h2 {

@@ -11,6 +11,7 @@ import Head from "next/head";
 import Faq from "../components/faq";
 import {toast} from "react-toastify";
 import Link from "next/link";
+import JoinAmbasadorPopup from "../components/PopUp/JoinAmbasadorPopup";
 const coinmarketcap = process.env.NEXT_PUBLIC_COINMARKET_API;
 
 export const currencyObj = {
@@ -36,6 +37,7 @@ export const currencyObj = {
 	},
 };
 const Home = () => {
+
 	if (typeof window !== "undefined") {
 		(function () {
 			const select = (el, all = false) => {
@@ -218,6 +220,7 @@ const Home = () => {
 	const [currencyDetail, setCurrencyDetail] = useState(null);
 	const Homevideo = useRef(null)
 	const Homevideobutton = useRef(null)
+	const [show, setShow] = useState(false);
 
 	const handleCollaboratorChange = (e) => {
 		setCollaborator(e.target.value);
@@ -583,7 +586,7 @@ const Home = () => {
 							/>
 							<div className="sponserd-text">
 								<h2>gas <span>sponsored</span></h2>
-								<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con</p>
+								<p>Enjoy limited-time, gas-sponsored transactions and experience safety in a scam-filled space!</p>
 								<Link href="#" className="btn">
 									<Image
 										src={images.walletWhite}
@@ -637,10 +640,11 @@ const Home = () => {
 				<div className="container">
 					<div className="wrapper">
 						<Link href="https://docs.google.com/forms/d/e/1FAIpQLScCOl0M1K0uFX8tp0gLNlojPfkcgxKRtZLXowxr0bNiSBCWbA/viewform" className="btn" target="_blank">Register for pre-sale!</Link>
-						<Link href="#" className="btn">Join as an ambassador!</Link>
+						<button type="button" onClick={() => setShow(true)} className="btn">Join as an ambassador!</button>
 						<Link href="https://docs.google.com/forms/d/e/1FAIpQLSejJVI60B1409zR1cmmMx1lE7ZtBVAPwpnwsU_uYvbIatVOsQ/viewform" className="btn" target="_blank">Enquire for your community!</Link>
 					</div>
 				</div>
+				<JoinAmbasadorPopup/>
 			</div>
 
 			<div className="how-to-use" id="learn">

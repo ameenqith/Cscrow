@@ -13,6 +13,7 @@ import TelegramLogo from "./TelegramLogo.svg";
 import DiscordLogo from "./DiscordLogo.svg";
 import WebIntegrationsLogo from "./Web_Integrations_icon.svg";
 import playButton from "./play_button.svg";
+import cross from "./cross.svg";
 export default {
 	polygon,
 	sketch,
@@ -28,5 +29,6 @@ export default {
 	TelegramLogo,
 	DiscordLogo,
 	WebIntegrationsLogo,
-	playButton
+	playButton,
+	cross
 };
