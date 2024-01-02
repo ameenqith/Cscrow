@@ -477,6 +477,9 @@
     gap: 20px;
     align-items: center;
 }
+.ambasadorPopup .popupBox p a {
+    text-decoration: underline;
+}
 @media only screen and (max-width: 1439px) {
     .how-to-use .section-title h2 {
         font-size: 36px;

@@ -1,6 +1,7 @@
 import React from 'react';
 import images from "../../img";
 import Image from "next/image";
+import Link from 'next/link';
 
 export default function JoinAmbasadorPopup({show,setShow}) {
 
@@ -17,7 +18,7 @@ export default function JoinAmbasadorPopup({show,setShow}) {
                     height={{}}
                 />
                 </button>
-                <p>Join our discord server & create a ticket for 'Ambassadors'. Our team will respond to your request soon.</p>
+                <p>Join our <Link href="https://discord.com/invite/cscrow" target="_blank">discord server</Link> & create a ticket for 'Ambassadors'. Our team will respond to your request soon.</p>
             </div>
         </div>
     </>
