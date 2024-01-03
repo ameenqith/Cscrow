@@ -128,7 +128,7 @@ function Header() {
                   <FaTiktok size={24}/>
                 </div>
             </a>
-            <a href="https://discord.gg/vgnDgc6KRa"  target='_blank'>
+            <a href="https://discord.gg/9NrVgamBhw"  target='_blank'>
               <div className="cursor-pointer rounded-lg transition duration-300 ease-in-out hover:opacity-50 ">
                   <FaDiscord size={24}/>
                 </div>

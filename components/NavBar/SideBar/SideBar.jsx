@@ -42,7 +42,7 @@ const SideBar = ({ setOpenSideMenu, currentAccount, connectWallet }) => {
 					<Link href="/dispute">disputes</Link>
 				</div>
 				<div className={Style.sideBar_menu_box} onClick={() => closeSideBar()}>
-					<Link href="https://discord.gg/cscrow">Discord</Link>
+					<Link href="https://discord.gg/9NrVgamBhw">Discord</Link>
 				</div>
 				<div className={Style.sideBar_menu_box} onClick={() => closeSideBar()}>
 					<Link href="https://twitter.com/cscrowdotcom">Twitter</Link>

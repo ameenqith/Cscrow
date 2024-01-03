@@ -138,7 +138,7 @@ const NavBar = () => {
 										</a>
 									</li>
 									<li>
-										<a href="https://discord.gg/cscrow"  target='_blank'>
+										<a href="https://discord.gg/9NrVgamBhw"  target='_blank'>
 											<FaDiscord size={22}/>
 										</a>
 									</li>
@@ -155,7 +155,7 @@ const NavBar = () => {
 									</div>
 
 								</a>
-								<a href="https://discord.gg/cscrow"  target='_blank'>
+								<a href="https://discord.gg/9NrVgamBhw"  target='_blank'>
 									<div className="cursor-pointer rounded-lg transition duration-300 ease-in-out hover:opacity-50 ">
 										<FaDiscord size={24}/>
 									</div>
@@ -190,7 +190,7 @@ const NavBar = () => {
 								</a>
 							</li>
 							<li>
-								<a href="https://discord.gg/cscrow"  target='_blank'>
+								<a href="https://discord.gg/9NrVgamBhw"  target='_blank'>
 									<FaDiscord size={22}/>
 								</a>
 							</li>
